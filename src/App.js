@@ -1,7 +1,9 @@
 import React from "react";
 import Uppy from "@uppy/core";
 import Dashboard from "@uppy/dashboard";
+import { connect } from "react-redux";
 import { PDFDocument } from "pdf-lib";
+import { addPages } from "./redux/actions";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/dashboard/dist/style.css";
@@ -10,8 +12,7 @@ import "./App.css";
 class App extends React.Component {
   state = {
     uppy: null,
-    documents: [],
-    pages: []
+    documents: []
   };
   componentDidMount() {
     let uppyInstance = Uppy().use(Dashboard, {
@@ -35,9 +36,7 @@ class App extends React.Component {
           let newDocBytes = await newDoc.save();
           newDocs.push(newDocBytes);
         }
-        this.setState({
-          documents: [...this.state.documents, ...newDocs]
-        });
+        this.props.addPages(newDocs);
       };
       reader.readAsArrayBuffer(fileRef);
     });
@@ -69,4 +68,12 @@ class App extends React.Component {
   }
 }
 
-export default App;
+function mapStateToProps(state) {
+  return { pages: state.pages };
+}
+
+const mapDispatchToProps = {
+  addPages
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
