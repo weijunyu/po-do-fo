@@ -1,3 +1,7 @@
 .uppy-Dashboard-inner {
   margin: 0 auto;
 }
+.document {
+  height: 100vh;
+  margin: 1rem;
+}
