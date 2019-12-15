@@ -2,8 +2,7 @@ import React from "react";
 import Uppy from "@uppy/core";
 import Dashboard from "@uppy/dashboard";
 import { connect } from "react-redux";
-import { PDFDocument } from "pdf-lib";
-import { addPages } from "./redux/actions";
+import { loadPagesFromFile } from "./redux/actions";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/dashboard/dist/style.css";
@@ -22,37 +21,31 @@ class App extends React.Component {
     this.setState({
       uppy: uppyInstance
     });
-    uppyInstance.on("file-added", file => {
-      let fileRef = file.data;
-      let reader = new FileReader();
-      reader.onload = async () => {
-        const pdfDoc = await PDFDocument.load(reader.result);
-
-        let newDocs = [];
-        for (let i = 0; i < pdfDoc.getPageCount(); i++) {
-          let newDoc = await PDFDocument.create();
-          let [copiedPage] = await newDoc.copyPages(pdfDoc, [i]);
-          newDoc.addPage(copiedPage);
-          let newDocBytes = await newDoc.save();
-          newDocs.push(newDocBytes);
-        }
-        this.props.addPages(newDocs);
-      };
-      reader.readAsArrayBuffer(fileRef);
-    });
+    uppyInstance.on("file-added", this.props.loadPagesFromFile);
   }
-  renderDocuments() {
-    if (this.state.documents.length > 0) {
-      return this.state.documents.map((document, index) => {
-        const blob = new Blob([document], { type: "application/pdf" });
+  renderPageList() {
+    if (this.props.pages.length > 0) {
+      return this.props.pages.map((page, index) => {
+        const blob = new Blob([page], { type: "application/pdf" });
         const blobUrl = URL.createObjectURL(blob);
         return (
-          <div className="document" key={index}>
+          <div style={{ width: "100%", position: "relative" }}>
             <iframe
+              key={index}
               src={blobUrl}
-              title={index}
+              title={`page-${index}`}
               style={{ width: "100%", height: "100%" }}
             ></iframe>
+            <button
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                opacity: 0
+              }}
+            ></button>
           </div>
         );
       });
@@ -62,7 +55,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="uploader"></div>
-        {this.renderDocuments()}
+        <div className="page-list">{this.renderPageList()}</div>
       </div>
     );
   }
@@ -73,7 +66,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  addPages
+  loadPagesFromFile
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
