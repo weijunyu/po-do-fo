@@ -2,6 +2,7 @@ import React from "react";
 import Uppy from "@uppy/core";
 import Dashboard from "@uppy/dashboard";
 import { connect } from "react-redux";
+import MainPdfView from "./components/MainPdfView";
 import { loadPagesFromFile } from "./redux/actions";
 
 import "@uppy/core/dist/style.css";
@@ -55,7 +56,10 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="uploader"></div>
-        <div className="page-list">{this.renderPageList()}</div>
+        <div style={{ display: "flex" }}>
+          <div className="page-list">{this.renderPageList()}</div>
+          <MainPdfView knightPosition={this.props.knightPosition} />
+        </div>
       </div>
     );
   }

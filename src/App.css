@@ -2,10 +2,11 @@ body * {
   box-sizing: border-box;
 }
 .page-list {
-  position:relative;
+  position: relative;
   width: 20vw;
   border: 1px solid #004684;
   padding: .5rem;
+  display: inline-block;
 }
 .uppy-Dashboard-inner {
   margin: 0 auto;
@@ -13,4 +14,5 @@ body * {
 .document {
   height: 100vh;
   margin: 1rem;
+  flex: 1 1 auto;
 }
