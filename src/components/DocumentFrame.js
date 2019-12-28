@@ -4,14 +4,14 @@ import "./DocumentFrame.css";
 
 class DocumentFrame extends React.Component {
   render() {
-    // TODO: Responsive iframe
-    // https://benmarshall.me/responsive-iframes/
+    // Responsive iframe: https://benmarshall.me/responsive-iframes/
     return (
-      <iframe
-        src={this.props.src}
-        title={this.props.title}
-        className="document-frame"
-      ></iframe>
+      <div className="iframe-container">
+        <iframe
+          src={this.props.src}
+          title={this.props.title}
+        ></iframe>
+      </div>
     );
   }
 }

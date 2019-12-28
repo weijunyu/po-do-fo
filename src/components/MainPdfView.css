@@ -6,3 +6,6 @@
 .document-container {
   flex: 1 1 auto;
 }
+.document-container:not(:last-child) {
+  margin-bottom: 1rem;
+}

@@ -14,7 +14,6 @@ function MainPdfView(props) {
             const blobUrl = URL.createObjectURL(blob);
             return (
               <div key={index} className="document-container">
-                {/* TODO: set iframe height after it's loaded using onload */}
                 <DocumentFrame
                   src={blobUrl}
                   title={`page-${index}`}
