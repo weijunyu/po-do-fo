@@ -1,0 +1,13 @@
+.documents {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.document-container {
+  flex: 1 1 auto;
+}
+
+.document-frame {
+  width: 85%;
+}

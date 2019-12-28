@@ -30,23 +30,13 @@ class App extends React.Component {
         const blob = new Blob([page], { type: "application/pdf" });
         const blobUrl = URL.createObjectURL(blob);
         return (
-          <div style={{ width: "100%", position: "relative" }}>
+          <div style={{ width: "100%", position: "relative" }} key={index}>
             <iframe
               key={index}
               src={blobUrl}
               title={`page-${index}`}
               style={{ width: "100%", height: "100%" }}
             ></iframe>
-            <button
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                width: "100%",
-                height: "100%",
-                opacity: 0
-              }}
-            ></button>
           </div>
         );
       });
@@ -58,7 +48,7 @@ class App extends React.Component {
         <div className="uploader"></div>
         <div style={{ display: "flex" }}>
           <div className="page-list">{this.renderPageList()}</div>
-          <MainPdfView knightPosition={this.props.knightPosition} />
+          <MainPdfView />
         </div>
       </div>
     );
