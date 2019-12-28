@@ -48,7 +48,9 @@ class App extends React.Component {
         <div className="uploader"></div>
         <div style={{ display: "flex" }}>
           <div className="page-list">{this.renderPageList()}</div>
-          <MainPdfView />
+          <div className="main">
+            <MainPdfView />
+          </div>
         </div>
       </div>
     );

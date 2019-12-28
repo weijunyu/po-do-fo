@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 
+import DocumentFrame from "./DocumentFrame";
+
 import "./MainPdfView.css";
 
 function MainPdfView(props) {
@@ -13,12 +15,10 @@ function MainPdfView(props) {
             return (
               <div key={index} className="document-container">
                 {/* TODO: set iframe height after it's loaded using onload */}
-                <iframe
-                  key={index}
+                <DocumentFrame
                   src={blobUrl}
                   title={`page-${index}`}
-                  className="document-frame"
-                ></iframe>
+                ></DocumentFrame>
               </div>
             );
           })
