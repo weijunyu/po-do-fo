@@ -8,7 +8,7 @@ class DocumentFrame extends React.Component {
     return (
       <div className="iframe-container">
         <iframe
-          src={this.props.src}
+          src={`${this.props.src}#view=fit&toolbar=0&navpanes=0`}
           title={this.props.title}
         ></iframe>
       </div>
