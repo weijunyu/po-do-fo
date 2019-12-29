@@ -18,6 +18,7 @@ function MainPdfView(props) {
                   src={blobUrl}
                   title={`page-${index}`}
                 ></DocumentFrame>
+                <p>Hello</p>
               </div>
             );
           })
