@@ -1,13 +1,24 @@
+html,
+body,
+#root,
+.App {
+  height: 100%;
+}
+body,
 body * {
   box-sizing: border-box;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
-.page-list {
-  position: relative;
+.App {
+  display: flex;
+  align-items: flex-start;
+}
+.sidenav {
+  position: sticky;
+  top: 0;
   width: 20vw;
+  padding: 0.5rem;
   border: 1px solid #004684;
-  padding: .5rem;
-  display: inline-block;
 }
 .uppy-Dashboard-inner {
   margin: 0 auto;

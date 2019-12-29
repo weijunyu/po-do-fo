@@ -45,12 +45,11 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <div className="uploader"></div>
-        <div style={{ display: "flex" }}>
-          <div className="page-list">{this.renderPageList()}</div>
-          <div className="main">
-            <MainPdfView />
-          </div>
+        <div className="sidenav">
+          <div className="uploader"></div>
+        </div>
+        <div className="main">
+          <MainPdfView />
         </div>
       </div>
     );
