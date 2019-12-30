@@ -11,4 +11,5 @@ deploy_production:
   script:
     - npm install -g firebase-tools
     - npm ci
+    - npm run build
     - firebase deploy
