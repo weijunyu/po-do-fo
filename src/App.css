@@ -8,26 +8,12 @@ body * {
   box-sizing: border-box;
   font-family: "Open Sans", sans-serif;
 }
+
 .App {
   display: flex;
   align-items: flex-start;
 }
-.sidenav {
-  position: sticky;
-  top: 0;
-  width: 20vw;
-  padding: 0.5rem;
 
-  display: flex;
-  flex-direction: column;
-}
-.sidenav button {
-  margin-top: 0.1rem;
-}
-
-.uppy-Dashboard-inner {
-  margin: 0 auto;
-}
 .main {
   flex: 1 1 auto;
   padding-top: 0.5rem;

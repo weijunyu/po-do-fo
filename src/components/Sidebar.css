@@ -1,0 +1,16 @@
+.sidenav {
+  position: sticky;
+  top: 0;
+  width: 20vw;
+  padding: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+}
+.sidenav button {
+  margin-top: 0.1rem;
+}
+
+.uppy-Dashboard-inner {
+  margin: 0 auto;
+}
