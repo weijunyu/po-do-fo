@@ -8,6 +8,13 @@
   display: flex;
   align-items: center;
 }
+.page-controls {
+  display: flex;
+  flex-direction: column;
+}
+.page-controls button:not(:last-child) {
+  margin-bottom: 0.1rem;
+}
 .document-container:not(:last-child) {
   margin-bottom: 1rem;
 }

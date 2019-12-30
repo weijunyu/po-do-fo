@@ -1,5 +1,5 @@
 import { PDFDocument } from "pdf-lib";
-import { ADD_PAGES } from "./actionTypes";
+import { ADD_PAGES, MOVE_PAGE_UP, MOVE_PAGE_DOWN } from "./actionTypes";
 export const addPages = pages => ({
   type: ADD_PAGES,
   payload: pages
@@ -24,3 +24,11 @@ export const loadPagesFromFile = file => {
     reader.readAsArrayBuffer(fileRef);
   };
 };
+export const movePageUp = pageIndex => ({
+  type: MOVE_PAGE_UP,
+  payload: pageIndex
+});
+export const movePageDown = pageIndex => ({
+  type: MOVE_PAGE_DOWN,
+  payload: pageIndex
+});

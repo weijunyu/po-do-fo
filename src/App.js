@@ -2,6 +2,9 @@ import React from "react";
 import Uppy from "@uppy/core";
 import Dashboard from "@uppy/dashboard";
 import { connect } from "react-redux";
+import { PDFDocument } from "pdf-lib";
+import { saveAs } from "file-saver";
+
 import MainPdfView from "./components/MainPdfView";
 import { loadPagesFromFile } from "./redux/actions";
 
@@ -14,6 +17,18 @@ class App extends React.Component {
     uppy: null,
     documents: []
   };
+  exportPdf = async () => {
+    let newDocument = await PDFDocument.create();
+    for (let pageBytes of this.props.pages) {
+      let pageDoc = await PDFDocument.load(pageBytes);
+      const [pdfPage] = await newDocument.copyPages(pageDoc, [0]);
+      newDocument.addPage(pdfPage);
+    }
+    let final = await newDocument.save();
+    const file = new File([final], "export.pdf", { type: "application/pdf" });
+    saveAs(file);
+  };
+
   componentDidMount() {
     let uppyInstance = Uppy().use(Dashboard, {
       target: ".uploader",
@@ -24,6 +39,7 @@ class App extends React.Component {
     });
     uppyInstance.on("file-added", this.props.loadPagesFromFile);
   }
+
   renderPageList() {
     if (this.props.pages.length > 0) {
       return this.props.pages.map((page, index) => {
@@ -47,6 +63,11 @@ class App extends React.Component {
       <div className="App">
         <div className="sidenav">
           <div className="uploader"></div>
+          {this.props.pages.length > 0 ? (
+            <button className="btn primary" onClick={this.exportPdf}>
+              Export PDF
+            </button>
+          ) : null}
         </div>
         <div className="main">
           <MainPdfView />
