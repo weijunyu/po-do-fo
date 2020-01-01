@@ -1,14 +1,15 @@
 .sidenav {
-  position: fixed;
+  position: sticky;
   bottom: 0;
   width: 100%;
-  height: 11rem;
+  height: 10rem;
   padding: 0.5rem;
   background-color: white;
   border-top: 1px solid blue;
 
   display: flex;
 }
+
 .loader {
   flex: 1 1 auto;
 }
@@ -16,6 +17,7 @@
   margin-top: 0.1rem;
 }
 
-.uppy-Dashboard-inner {
-  margin: 0 auto;
+/* Overrides */
+.uppy-DragDrop-inner {
+  padding: 0;
 }

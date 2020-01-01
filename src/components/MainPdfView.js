@@ -34,7 +34,7 @@ function MainPdfView(props) {
                     <i className="fas fa-chevron-down"></i>
                   </button>
                   <button
-                    className="btn primary"
+                    className="btn secondary"
                     onClick={() => props.removePage(index)}
                   >
                     <i className="fas fa-trash"></i>

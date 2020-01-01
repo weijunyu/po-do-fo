@@ -7,6 +7,8 @@ import DragDrop from "@uppy/drag-drop";
 
 import { loadPagesFromFile } from "../redux/actions";
 
+import "@uppy/core/dist/style.css";
+import "@uppy/drag-drop/dist/style.css";
 import "./Sidebar.css";
 
 class Sidebar extends React.Component {
