@@ -6,7 +6,7 @@ import App from "./App";
 import store from "./redux/store";
 
 import "@uppy/core/dist/style.css";
-import "@uppy/dashboard/dist/style.css";
+import '@uppy/drag-drop/dist/style.css'
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./normalize.css";
 

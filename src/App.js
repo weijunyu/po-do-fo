@@ -9,10 +9,10 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
-        <Sidebar />
         <div className="main">
           <MainPdfView />
         </div>
+        <Sidebar />
       </div>
     );
   }

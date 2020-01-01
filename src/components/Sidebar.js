@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
-import Dashboard from "@uppy/dashboard";
 import Uppy from "@uppy/core";
+import DragDrop from "@uppy/drag-drop";
 
 import { loadPagesFromFile } from "../redux/actions";
 
@@ -11,9 +11,8 @@ import "./Sidebar.css";
 
 class Sidebar extends React.Component {
   componentDidMount() {
-    let uppyInstance = Uppy().use(Dashboard, {
-      target: ".uploader",
-      inline: true
+    let uppyInstance = Uppy().use(DragDrop, {
+      target: ".loader"
     });
     uppyInstance.on("file-added", this.props.loadPagesFromFile);
   }
@@ -32,7 +31,7 @@ class Sidebar extends React.Component {
   render() {
     return (
       <div className="sidenav">
-        <div className="uploader"></div>
+        <div className="loader"></div>
         {this.props.pages.length > 0 ? (
           <button className="btn primary" onClick={this.exportPdf}>
             Export PDF
