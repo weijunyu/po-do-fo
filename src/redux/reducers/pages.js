@@ -2,7 +2,8 @@ import {
   ADD_PAGE,
   ADD_PAGES,
   MOVE_PAGE_UP,
-  MOVE_PAGE_DOWN
+  MOVE_PAGE_DOWN,
+  REMOVE_PAGE
 } from "../actionTypes";
 const initialState = [];
 
@@ -39,6 +40,11 @@ export default function(state = initialState, action) {
         swapArrayIndices(pages, currentIndex, currentIndex + 1);
       }
       return pages;
+    }
+    case REMOVE_PAGE: {
+      return state.filter((page, index) => {
+        return index !== action.payload;
+      });
     }
     default:
       return state;

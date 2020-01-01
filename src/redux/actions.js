@@ -1,5 +1,10 @@
 import { PDFDocument } from "pdf-lib";
-import { ADD_PAGES, MOVE_PAGE_UP, MOVE_PAGE_DOWN } from "./actionTypes";
+import {
+  ADD_PAGES,
+  MOVE_PAGE_UP,
+  MOVE_PAGE_DOWN,
+  REMOVE_PAGE
+} from "./actionTypes";
 export const addPages = pages => ({
   type: ADD_PAGES,
   payload: pages
@@ -30,5 +35,9 @@ export const movePageUp = pageIndex => ({
 });
 export const movePageDown = pageIndex => ({
   type: MOVE_PAGE_DOWN,
+  payload: pageIndex
+});
+export const removePage = pageIndex => ({
+  type: REMOVE_PAGE,
   payload: pageIndex
 });

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import DocumentFrame from "./DocumentFrame";
-import { movePageUp, movePageDown } from "../redux/actions";
+import { movePageUp, movePageDown, removePage } from "../redux/actions";
 
 import "./MainPdfView.css";
 
@@ -21,6 +21,8 @@ function MainPdfView(props) {
                     className="btn"
                     onClick={() => props.movePageUp(index)}
                   >
+                    <i className="fas fa-chevron-up"></i>
+                    <br />
                     Move up
                   </button>
                   <button
@@ -28,6 +30,14 @@ function MainPdfView(props) {
                     onClick={() => props.movePageDown(index)}
                   >
                     Move down
+                    <br />
+                    <i className="fas fa-chevron-down"></i>
+                  </button>
+                  <button
+                    className="btn primary"
+                    onClick={() => props.removePage(index)}
+                  >
+                    <i className="fas fa-trash"></i>
                   </button>
                 </div>
               </div>
@@ -44,7 +54,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   movePageUp,
-  movePageDown
+  movePageDown,
+  removePage
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPdfView);

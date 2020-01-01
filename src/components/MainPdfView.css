@@ -6,11 +6,12 @@
 .document-container {
   flex: 1 1 auto;
   display: flex;
-  align-items: center;
+  align-items: stretch;
 }
 .page-controls {
   display: flex;
   flex-direction: column;
+  justify-content: center;
 }
 .page-controls button:not(:last-child) {
   margin-bottom: 0.1rem;
