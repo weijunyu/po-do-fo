@@ -3,6 +3,7 @@
   padding-top: 56.25%;
   position: relative;
   width: 90%;
+  flex: 1 1 auto;
 }
  
 .iframe-container iframe {
