@@ -13,10 +13,15 @@ import "./Sidebar.css";
 
 class Sidebar extends React.Component {
   componentDidMount() {
-    let uppyInstance = Uppy().use(DragDrop, {
+    Uppy({
+      onBeforeFileAdded: currentFile => {
+        // Use this to load files into state
+        // Uppy blocks re-uploads by default
+        this.props.loadPagesFromFile(currentFile);
+      }
+    }).use(DragDrop, {
       target: ".loader"
     });
-    uppyInstance.on("file-added", this.props.loadPagesFromFile);
   }
 
   exportPdf = async () => {
