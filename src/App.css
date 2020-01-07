@@ -3,6 +3,8 @@
   --color-primary-dark: #c62828;
   --color-secondary: #757575;
   --color-secondary-dark: #424242;
+  --color-success: #43a047;
+  --color-success-dark: #2e7d32;
 }
 
 body,
@@ -14,10 +16,16 @@ body * {
 .App {
   min-height: 100vh;
   position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 .main {
   padding-top: 0.5rem;
+  flex: 1 1 auto;
+
+  display: flex;
+  flex-direction: column;
 }
 
 .btn {
@@ -27,6 +35,8 @@ body * {
   background-color: white;
   color: black;
   cursor: pointer;
+  text-decoration: none;
+  text-align: center;
 }
 
 .btn:hover {

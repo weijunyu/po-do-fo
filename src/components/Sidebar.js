@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { useRouteMatch, Link } from "react-router-dom";
 import { PDFDocument } from "pdf-lib";
 import { saveAs } from "file-saver";
 import Uppy from "@uppy/core";
@@ -11,22 +12,38 @@ import "@uppy/core/dist/style.css";
 import "@uppy/drag-drop/dist/style.css";
 import "./Sidebar.css";
 
-class Sidebar extends React.Component {
-  componentDidMount() {
+function Sidebar(props) {
+  const match = useRouteMatch("/edit");
+
+  return (
+    <div className="sidebar">
+      {match ? (
+        <Link to="/" className="btn primary back">
+          Back
+        </Link>
+      ) : (
+        PdfLoader(props)
+      )}
+    </div>
+  );
+}
+
+function PdfLoader(props) {
+  const { loadPagesFromFile } = props;
+  useEffect(() => {
     Uppy({
       onBeforeFileAdded: currentFile => {
         // Use this to load files into state
         // Uppy blocks re-uploads by default
-        this.props.loadPagesFromFile(currentFile);
+        loadPagesFromFile(currentFile);
       }
     }).use(DragDrop, {
       target: ".loader"
     });
-  }
-
-  exportPdf = async () => {
+  }, [loadPagesFromFile]);
+  async function exportPdf() {
     let newDocument = await PDFDocument.create();
-    for (let pageBytes of this.props.pages) {
+    for (let pageBytes of props.pages) {
       let pageDoc = await PDFDocument.load(pageBytes);
       const [pdfPage] = await newDocument.copyPages(pageDoc, [0]);
       newDocument.addPage(pdfPage);
@@ -34,20 +51,19 @@ class Sidebar extends React.Component {
     let final = await newDocument.save();
     const file = new File([final], "export.pdf", { type: "application/pdf" });
     saveAs(file);
-  };
-  render() {
-    return (
-      <div className="sidenav">
-        <div className="loader"></div>
-        {this.props.pages.length > 0 ? (
-          <button className="btn primary" onClick={this.exportPdf}>
-            Export PDF
-          </button>
-        ) : null}
-      </div>
-    );
   }
+  return (
+    <>
+      <div className="loader"></div>
+      {props.pages.length > 0 ? (
+        <button className="btn primary" onClick={exportPdf}>
+          Export PDF
+        </button>
+      ) : null}
+    </>
+  );
 }
+
 function mapStateToProps(state) {
   return { pages: state.pages };
 }

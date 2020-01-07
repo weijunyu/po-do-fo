@@ -1,4 +1,4 @@
-.sidenav {
+.sidebar {
   position: sticky;
   bottom: 0;
   width: 100%;
@@ -13,8 +13,16 @@
 .loader {
   flex: 1 1 auto;
 }
-.sidenav button {
+
+.sidebar button {
   margin-top: 0.1rem;
+}
+
+.sidebar .back {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Overrides */
