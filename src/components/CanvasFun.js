@@ -45,16 +45,22 @@ function CanvasFun() {
     };
   }, [canvasRef]);
 
-  function startPainting() {
+  function startPainting(e) {
     setPainting(true);
+    paint(e, true);
   }
   function stopPainting() {
     setPainting(false);
     canvasCtx.beginPath();
   }
-  function paint(e) {
+  /**
+   * 
+   * @param {*} e 
+   * @param {*} force Force drawing to happen. E.g. when simply a mouse click
+   */
+  function paint(e, force = false) {
     setMouseCoordinates([e.clientX, e.clientY]);
-    if (!painting) return;
+    if (!painting && !force) return;
     canvasCtx.lineWidth = 10;
     canvasCtx.lineCap = "round";
     canvasCtx.lineTo(
@@ -68,7 +74,6 @@ function CanvasFun() {
       e.clientY - canvasPosition.y
     );
   }
-  function getMousePosition() {}
 
   return (
     <div className="canvas-fun">
