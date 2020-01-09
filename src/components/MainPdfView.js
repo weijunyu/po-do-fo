@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import DocumentFrame from "./DocumentFrame";
+import CanvasFun from "./CanvasFun";
 import { movePageUp, movePageDown, removePage } from "../redux/actions";
 
 import "./MainPdfView.css";
@@ -34,7 +35,9 @@ function MainPdfView(props) {
                     <br />
                     <i className="fas fa-chevron-down"></i>
                   </button>
-                  <Link to={`/edit/${index}`} className="btn">Edit</Link>
+                  <Link to={`/edit/${index}`} className="btn">
+                    Edit
+                  </Link>
                   <button
                     className="btn secondary"
                     onClick={() => props.removePage(index)}
@@ -46,6 +49,7 @@ function MainPdfView(props) {
             );
           })
         : "Load a document"}
+      <CanvasFun />
     </div>
   );
 }
