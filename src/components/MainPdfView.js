@@ -15,7 +15,7 @@ function MainPdfView(props) {
               <div key={index} className="document-container">
                 <DocumentFrame
                   pageBytes={page}
-                  title={`page-${index}`}
+                  className={`page-${index}`}
                 ></DocumentFrame>
                 <div className="page-controls">
                   <button

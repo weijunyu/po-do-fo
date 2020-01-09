@@ -14,7 +14,7 @@ function EditorView(props) {
     <div style={{ display: "flex", justifyContent: "center" }}>
       <DocumentFrame
         pageBytes={props.pages[pageIndex]}
-        title={`page-${pageIndex}`}
+        className={`page-${pageIndex}`}
       />
     </div>
   );
