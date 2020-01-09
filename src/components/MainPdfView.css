@@ -7,16 +7,20 @@
   flex: 1 1 auto;
   display: flex;
   align-items: stretch;
+  justify-content: center;
 }
+
 .page-controls {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 .1rem;
+  padding: 0 0.1rem;
 }
+
 .page-controls .btn:not(:last-child) {
   margin-bottom: 0.1rem;
 }
+
 .document-container:not(:last-child) {
-  margin-bottom: .25rem;
+  margin-bottom: 0.25rem;
 }

@@ -1,17 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Document, Page } from "react-pdf";
 import "./DocumentFrame.css";
 
 function DocumentFrame({ pageBytes, title }) {
   const blob = new Blob([pageBytes], { type: "application/pdf" });
   const blobUrl = URL.createObjectURL(blob);
-  // Responsive iframe: https://benmarshall.me/responsive-iframes/
+  const pageNumber = 1;
   return (
-    <div className="iframe-container">
-      <iframe
-        src={`${blobUrl}#view=fit&toolbar=0&navpanes=0`}
-        title={title}
-      ></iframe>
+    <div className="document-frame">
+      <Document file={blobUrl}>
+        <Page pageNumber={pageNumber} />
+      </Document>
     </div>
   );
 }
