@@ -14,8 +14,8 @@ function CanvasFun() {
     setCanvasCtx(ctx);
 
     // Resizing
-    canvas.height = 768;
-    canvas.width = 1024;
+    canvas.height = 600;
+    canvas.width = 800;
 
     ctx.fillStyle = "red";
     ctx.strokeStyle = "blue";
@@ -39,7 +39,7 @@ function CanvasFun() {
       const rect = canvasRef.current.getBoundingClientRect();
       setCanvasPosition(rect);
     }
-    window.addEventListener("scroll", onScroll, true);
+    window.addEventListener("scroll", onScroll);
     return function cleanup() {
       window.removeEventListener("scroll", onScroll);
     };
@@ -77,7 +77,7 @@ function CanvasFun() {
 
   return (
     <div className="canvas-fun">
-      <h1>Canvas below: {painting}</h1>
+      <h2>Start painting!</h2>
       <div className="canvas-container">
         <canvas
           id="my-canvas"
@@ -86,9 +86,6 @@ function CanvasFun() {
           onMouseUp={stopPainting}
           onMouseMove={paint}
         ></canvas>
-        <span>
-          {mouseCoordinates[0]},{mouseCoordinates[1]}
-        </span>
       </div>
     </div>
   );

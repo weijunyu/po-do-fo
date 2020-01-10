@@ -1,6 +1,7 @@
-.canvas-container {
-  display: flex;
+.canvas-fun h2 {
+  text-align: center;
 }
+
 #my-canvas {
   border: 1px solid black;
 }
