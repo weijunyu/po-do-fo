@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import jsPDF from "jspdf";
 import "./CanvasFun.css";
 
 function CanvasFun() {
@@ -54,8 +55,8 @@ function CanvasFun() {
     canvasCtx.beginPath();
   }
   /**
-   * 
-   * @param {*} e 
+   *
+   * @param {*} e
    * @param {*} force Force drawing to happen. E.g. when simply a mouse click
    */
   function paint(e, force = false) {
@@ -75,6 +76,13 @@ function CanvasFun() {
     );
   }
 
+  function exportCanvas() {
+    const imgData = canvasRef.current.toDataURL("image/jpeg", 1.0);
+    const pdf = new jsPDF();
+    pdf.addImage(imgData, "JPEG", 0, 0);
+    pdf.save("export.pdf");
+  }
+
   return (
     <div className="canvas-fun">
       <h2>Start painting!</h2>
@@ -87,6 +95,13 @@ function CanvasFun() {
           onMouseMove={paint}
         ></canvas>
       </div>
+      <button
+        className="btn primary"
+        onClick={exportCanvas}
+        style={{ display: "block", margin: ".5rem auto" }}
+      >
+        Save
+      </button>
     </div>
   );
 }

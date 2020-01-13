@@ -1,4 +1,5 @@
 import { PDFDocument } from "pdf-lib";
+import uuidv4 from "uuid/v4";
 import {
   ADD_PAGES,
   MOVE_PAGE_UP,
@@ -22,7 +23,10 @@ export const loadPagesFromFile = file => {
         let [copiedPage] = await newDoc.copyPages(pdfDoc, [i]);
         newDoc.addPage(copiedPage);
         let newDocBytes = await newDoc.save();
-        newDocs.push(newDocBytes);
+        newDocs.push({
+          id: uuidv4(),
+          bytes: newDocBytes
+        });
       }
       dispatch(addPages(newDocs));
     };

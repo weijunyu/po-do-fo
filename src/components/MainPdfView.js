@@ -13,9 +13,9 @@ function MainPdfView(props) {
       {props.pages.length > 0 ? (
         props.pages.map((page, index) => {
           return (
-            <div key={index} className="document-container">
+            <div key={page.id} className="document-container">
               <DocumentFrame
-                pageBytes={page}
+                pageBytes={page.bytes}
                 className={`page-${index}`}
               ></DocumentFrame>
               <div className="page-controls">
