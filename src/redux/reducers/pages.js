@@ -1,9 +1,11 @@
+import uuidv4 from "uuid/v4";
 import {
   ADD_PAGE,
   ADD_PAGES,
   MOVE_PAGE_UP,
   MOVE_PAGE_DOWN,
-  REMOVE_PAGE
+  REMOVE_PAGE,
+  SET_PAGE
 } from "../actionTypes";
 const initialState = [];
 
@@ -22,6 +24,18 @@ export default function(state = initialState, action) {
     case ADD_PAGES: {
       const pages = action.payload;
       return [...state, ...pages];
+    }
+    case SET_PAGE: {
+      let { pageIndex, pageBytes } = action.payload;
+      return state.map((page, index) => {
+        if (index === pageIndex) {
+          return {
+            id: uuidv4(),
+            bytes: pageBytes
+          };
+        }
+        return page;
+      });
     }
     case MOVE_PAGE_UP: {
       let currentIndex = action.payload;

@@ -14,12 +14,19 @@
   flex: 1 1 auto;
 }
 
-.sidebar button {
-  margin-top: 0.1rem;
+.sidebar .btn {
+  flex: 1 1 auto;
+}
+
+.sidebar .btn.export {
+  flex: none;
+}
+
+.sidebar .btn:not(:last-child) {
+  margin-right: 0.3rem;
 }
 
 .sidebar .back {
-  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

@@ -31,7 +31,6 @@
     "@uppy/core": "^1.6.0",
     "@uppy/drag-drop": "^1.4.1",
     "file-saver": "^2.0.2",
-    "jspdf": "^1.5.3",
     "pdf-lib": "^1.2.1",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",

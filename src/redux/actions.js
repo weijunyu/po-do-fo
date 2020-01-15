@@ -2,6 +2,7 @@ import { PDFDocument } from "pdf-lib";
 import uuidv4 from "uuid/v4";
 import {
   ADD_PAGES,
+  SET_PAGE,
   MOVE_PAGE_UP,
   MOVE_PAGE_DOWN,
   REMOVE_PAGE
@@ -9,6 +10,13 @@ import {
 export const addPages = pages => ({
   type: ADD_PAGES,
   payload: pages
+});
+export const setPage = (pageIndex, pageBytes) => ({
+  type: SET_PAGE,
+  payload: {
+    pageIndex,
+    pageBytes
+  }
 });
 export const loadPagesFromFile = file => {
   return dispatch => {

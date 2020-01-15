@@ -1,0 +1,9 @@
+.editor-view {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.editor-controls {
+  margin-left: 1rem;
+}

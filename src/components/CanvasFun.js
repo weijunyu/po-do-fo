@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import jsPDF from "jspdf";
+import { PDFDocument } from "pdf-lib";
+import { saveAs } from "file-saver";
 import "./CanvasFun.css";
 
 function CanvasFun() {
@@ -76,11 +77,17 @@ function CanvasFun() {
     );
   }
 
-  function exportCanvas() {
+  async function exportCanvas() {
     const imgData = canvasRef.current.toDataURL("image/jpeg", 1.0);
-    const pdf = new jsPDF();
-    pdf.addImage(imgData, "JPEG", 0, 0);
-    pdf.save("export.pdf");
+    const pdfDoc = await PDFDocument.create();
+    const pdfImage = await pdfDoc.embedJpg(imgData);
+    const page = pdfDoc.addPage();
+    page.drawImage(pdfImage);
+    const pdfBytes = await pdfDoc.save();
+    const file = new File([pdfBytes], "export.pdf", {
+      type: "application/pdf"
+    });
+    saveAs(file);
   }
 
   return (

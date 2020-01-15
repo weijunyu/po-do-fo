@@ -43,8 +43,8 @@ function PdfLoader(props) {
   }, [loadPagesFromFile]);
   async function exportPdf() {
     let newDocument = await PDFDocument.create();
-    for (let pageBytes of props.pages) {
-      let pageDoc = await PDFDocument.load(pageBytes);
+    for (let page of props.pages) {
+      let pageDoc = await PDFDocument.load(page.bytes);
       const [pdfPage] = await newDocument.copyPages(pageDoc, [0]);
       newDocument.addPage(pdfPage);
     }
@@ -56,7 +56,7 @@ function PdfLoader(props) {
     <>
       <div className="loader"></div>
       {props.pages.length > 0 ? (
-        <button className="btn primary" onClick={exportPdf}>
+        <button className="btn primary export" onClick={exportPdf}>
           Export PDF
         </button>
       ) : null}
