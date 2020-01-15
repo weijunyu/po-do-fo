@@ -13,3 +13,5 @@ deploy_production:
     - npm ci
     - npm run build
     - firebase deploy
+  variables:
+    CI: "false"
