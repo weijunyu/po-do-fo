@@ -1,4 +1,5 @@
 import uuidv4 from "uuid/v4";
+import seedDoc from "../../seedDoc";
 import {
   ADD_PAGE,
   ADD_PAGES,
@@ -7,7 +8,7 @@ import {
   REMOVE_PAGE,
   SET_PAGE
 } from "../actionTypes";
-const initialState = [];
+const initialState = [{id: uuidv4(), bytes: seedDoc}];
 
 function swapArrayIndices(arr, first, second) {
   let temp = arr[first];
