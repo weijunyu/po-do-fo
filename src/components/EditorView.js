@@ -13,6 +13,7 @@ function EditorView(props) {
   const [showTextBox, setShowTextBox] = useState(false);
   const [cursorLocation, setCursorLocation] = useState({});
   const [textBoxLocation, setTextBoxLocation] = useState({});
+  const [isPlacingTextBox, setIsPlacingTextBox] = useState(false);
   const routeParams = useParams();
   const pageIndex = parseInt(routeParams.pageIndex);
 
@@ -41,33 +42,31 @@ function EditorView(props) {
     props.setPage(pageIndex, pdfBytes);
   }
 
-  function selectAddTextLocation() {
-    document.body.style.cursor = "crosshair";
-
-    document.addEventListener("click", function changeCursor(e) {
-      document.body.style.cursor = "auto";
-      document.removeEventListener("click", changeCursor);
-
-      setShowTextBox(true);
+  function onViewClick(e) {
+    if (isPlacingTextBox) {
       let editorViewEl = document.querySelector(`.editor-view`);
       // if e.target is within canvas, set absolute x and y position values for text box.
       const rect = editorViewEl.getBoundingClientRect();
-      console.log(rect.x, rect.y);
-      console.log(cursorLocation.x, cursorLocation.y); // TODO: fix this closure!
       setTextBoxLocation({
-        x: cursorLocation.x - rect.x,
-        y: cursorLocation.y - rect.y
+        x: e.clientX - rect.x,
+        y: e.clientY - rect.y
       });
-    });
+      setShowTextBox(true);
+      setIsPlacingTextBox(false);
+    } else if (showTextBox) {
+      if (e.target === document.querySelector(".text-input-overlay")) return;
+      setShowTextBox(false);
+    }
   }
 
   return (
-    <div className="editor-view">
+    <div className="editor-view" onClick={onViewClick}>
       <DocumentFrame
         pageBytes={props.pages[pageIndex].bytes}
         className={`page-${pageIndex}`}
         editable={true}
         ref={documentFrameRef}
+        style={{ cursor: isPlacingTextBox ? "crosshair" : "auto" }}
       />
       {showTextBox ? (
         <TextInput
@@ -76,24 +75,24 @@ function EditorView(props) {
         />
       ) : null}
       <div className="editor-controls">
-        <button className="btn" onClick={selectAddTextLocation}>
+        <button className="btn" onClick={() => setIsPlacingTextBox(true)}>
           Add Text
         </button>
         <button className="btn success" onClick={saveCanvasAsPdf}>
           Save
         </button>
-        <p>
-          {cursorLocation.x}, {cursorLocation.y}
-        </p>
       </div>
     </div>
   );
 }
 
 function TextInput({ close, location }) {
+  useEffect(() => {
+    document.querySelector(".text-input-overlay").focus();
+  }, []);
   return (
     <div style={{ position: "absolute", left: location.x, top: location.y }}>
-      <input type="text" />
+      <input className="text-input-overlay" type="text" />
       <button onClick={close}>OK</button>
     </div>
   );

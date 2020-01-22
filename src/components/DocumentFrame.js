@@ -89,7 +89,7 @@ class DocumentFrame extends React.Component {
 
   render() {
     return (
-      <div className="document-frame">
+      <div className="document-frame" style={this.props.style}>
         <Document
           file={this.state.blobUrl}
           className={`${this.props.className}-doc`}
