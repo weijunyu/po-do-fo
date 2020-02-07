@@ -41,6 +41,7 @@ function PdfLoader(props) {
       target: ".loader"
     });
   }, [loadPagesFromFile]);
+
   async function exportPdf() {
     let newDocument = await PDFDocument.create();
     for (let page of props.pages) {
@@ -52,6 +53,7 @@ function PdfLoader(props) {
     const file = new File([final], "export.pdf", { type: "application/pdf" });
     saveAs(file);
   }
+
   return (
     <>
       <div className="loader"></div>

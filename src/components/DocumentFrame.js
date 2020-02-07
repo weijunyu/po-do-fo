@@ -20,12 +20,20 @@ class DocumentFrame extends React.Component {
           file={this.state.blobUrl}
           className={`${this.props.className}-doc`}
         >
-          <Page pageNumber={1} className={this.props.className} />
+          <Page
+            pageNumber={1}
+            className={this.props.className}
+            onRenderSuccess={this.props.onRenderSuccess}
+          />
         </Document>
       </div>
     );
   }
 }
+
+DocumentFrame.defaultProps = {
+  onRenderSuccess: () => {}
+};
 
 DocumentFrame.propTypes = {
   pageBytes: function(props, propName) {
