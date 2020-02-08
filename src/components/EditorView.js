@@ -63,6 +63,7 @@ function DrawableCanvas(props) {
   const [canvasBox, canvasRef] = useBoundingBox(props.dimensions);
   const [isDrawing, setIsDrawing] = useState(false);
   const [rectBasePos, setRectBasePos] = useState({});
+  const [currentRect, setCurrentRect] = useState({});
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -79,9 +80,10 @@ function DrawableCanvas(props) {
       y: e.clientY - canvasBox.top
     });
   }
-  function stopDrawing() {
+  function stopDrawing(event) {
     if (!props.drawingEnabled) return;
     setIsDrawing(false);
+    saveRect(event);
     let canvasCtx = canvasRef.current.getContext("2d");
     canvasCtx.beginPath();
   }
@@ -96,13 +98,23 @@ function DrawableCanvas(props) {
         canvasRef.current.height
       );
       canvasCtx.beginPath();
-      var width = e.clientX - canvasBox.left - rectBasePos.x;
-      var height = e.clientY - canvasBox.top - rectBasePos.y;
+      let width = e.clientX - canvasBox.left - rectBasePos.x;
+      let height = e.clientY - canvasBox.top - rectBasePos.y;
       canvasCtx.rect(rectBasePos.x, rectBasePos.y, width, height);
       canvasCtx.strokeStyle = "black";
       canvasCtx.lineWidth = 10;
       canvasCtx.fill();
     }
+  }
+  function saveRect(e) {
+    let width = e.clientX - canvasBox.left - rectBasePos.x;
+    let height = e.clientY - canvasBox.top - rectBasePos.y;
+    setCurrentRect({
+      x: rectBasePos.x,
+      y: rectBasePos.y,
+      width,
+      height
+    });
   }
 
   return (
