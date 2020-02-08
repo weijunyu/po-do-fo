@@ -7,7 +7,6 @@ function CanvasFun() {
   const [canvasRef] = useState(React.createRef());
   const [painting, setPainting] = useState(false);
   const [canvasCtx, setCanvasCtx] = useState(null);
-  const [mouseCoordinates, setMouseCoordinates] = useState([]);
   const [canvasPosition, setCanvasPosition] = useState({});
 
   useEffect(() => {
@@ -61,7 +60,6 @@ function CanvasFun() {
    * @param {*} force Force drawing to happen. E.g. when simply a mouse click
    */
   function paint(e, force = false) {
-    setMouseCoordinates([e.clientX, e.clientY]);
     if (!painting && !force) return;
     canvasCtx.lineWidth = 10;
     canvasCtx.lineCap = "round";

@@ -13,6 +13,7 @@ function EditorView(props) {
     width: 0,
     height: 0
   });
+  const [drawing, setDrawing] = useState(false);
 
   if (props.pages.length === 0) {
     return <Redirect to="/" />;
@@ -43,9 +44,15 @@ function EditorView(props) {
           onRenderSuccess={getLoadedPageSize}
           style={{ position: "absolute", top: 0, left: 0 }}
         />
-        <DrawableCanvas dimensions={loadedPageDimensions} />
+        <DrawableCanvas
+          drawingEnabled={drawing}
+          dimensions={loadedPageDimensions}
+        />
       </div>
       <div className="editor-controls">
+        <button className="btn" onClick={() => setDrawing(true)}>
+          Rectangle
+        </button>
         <button className="btn success">Save</button>
       </div>
     </div>
@@ -55,48 +62,48 @@ function EditorView(props) {
 function DrawableCanvas(props) {
   const [canvasBox, canvasRef] = useBoundingBox(props.dimensions);
   const [isDrawing, setIsDrawing] = useState(false);
+  const [rectBasePos, setRectBasePos] = useState({});
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    // Resizing
+    canvas.height = props.dimensions.height;
+    canvas.width = props.dimensions.width;
+  }, [canvasRef, props.dimensions]);
 
   function startDrawing(e) {
+    if (!props.drawingEnabled) return;
     setIsDrawing(true);
+    setRectBasePos({
+      x: e.clientX - canvasBox.left,
+      y: e.clientY - canvasBox.top
+    });
   }
   function stopDrawing() {
+    if (!props.drawingEnabled) return;
     setIsDrawing(false);
     let canvasCtx = canvasRef.current.getContext("2d");
     canvasCtx.beginPath();
   }
   function draw(e) {
+    if (!props.drawingEnabled) return;
     let canvasCtx = canvasRef.current.getContext("2d");
     if (isDrawing) {
-      canvasCtx.lineWidth = 10;
-      canvasCtx.lineCap = "round";
-      canvasCtx.lineTo(e.clientX - canvasBox.left, e.clientY - canvasBox.top); // Go to mouse
-      canvasCtx.stroke();
+      canvasCtx.clearRect(
+        0,
+        0,
+        canvasRef.current.width,
+        canvasRef.current.height
+      );
       canvasCtx.beginPath();
-      canvasCtx.moveTo(e.clientX - canvasBox.left, e.clientY - canvasBox.top);
+      var width = e.clientX - canvasBox.left - rectBasePos.x;
+      var height = e.clientY - canvasBox.top - rectBasePos.y;
+      canvasCtx.rect(rectBasePos.x, rectBasePos.y, width, height);
+      canvasCtx.strokeStyle = "black";
+      canvasCtx.lineWidth = 10;
+      canvasCtx.fill();
     }
   }
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-
-    // Resizing
-    canvas.height = props.dimensions.height;
-    canvas.width = props.dimensions.width;
-
-    // const ctx = canvas.getContext("2d");
-    // ctx.fillStyle = "red";
-    // ctx.strokeStyle = "blue";
-
-    // ctx.fillRect(25, 50, 10, 20);
-    // ctx.strokeRect(100, 100, 30, 25);
-
-    // ctx.beginPath();
-    // ctx.moveTo(10, 10);
-    // for (let y = 10; y < 100; y += 10) {
-    //   ctx.lineTo(y + 80, y);
-    // }
-    // ctx.fill();
-  }, [canvasRef, props.dimensions]);
 
   return (
     <canvas
@@ -105,7 +112,8 @@ function DrawableCanvas(props) {
       style={{
         position: "absolute",
         top: 0,
-        left: 0
+        left: 0,
+        cursor: props.drawingEnabled ? "crosshair" : "auto"
       }}
       onMouseDown={startDrawing}
       onMouseUp={stopDrawing}
