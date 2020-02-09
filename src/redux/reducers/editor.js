@@ -2,13 +2,15 @@ import {
   START_DRAWING,
   STOP_DRAWING,
   SET_SHOW_SAVE_CONFIRMATION,
-  CANCEL_DRAWING
+  CANCEL_DRAWING,
+  SAVE_DRAW_RECT
 } from "../actionTypes";
 
 const initialState = {
   drawing: false,
   showSaveConfirmation: false,
-  cancelDrawingIndicator: false
+  cancelDrawingIndicator: false,
+  drawnRectDimensions: {}
 };
 
 export default function(state = initialState, action) {
@@ -36,6 +38,9 @@ export default function(state = initialState, action) {
         ...state,
         cancelDrawingIndicator: !state.cancelDrawingIndicator
       };
+    }
+    case SAVE_DRAW_RECT: {
+      return { ...state, drawnRectDimensions: action.payload };
     }
     default: {
       return state;

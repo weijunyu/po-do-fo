@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { stopDrawing, setShowSaveConfirmation } from "../redux/actions";
+import {
+  stopDrawing,
+  setShowSaveConfirmation,
+  saveDrawRectDimensions
+} from "../redux/actions";
 
 import useBoundingBox from "../lib/useBoundingBox";
 
@@ -23,13 +27,6 @@ function DrawableCanvas(props) {
       );
     }
   }, [canvasRef, props.cancelDrawingIndicator]);
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    // Resizing
-    canvas.height = props.dimensions.height;
-    canvas.width = props.dimensions.width;
-  }, [canvasRef, props.dimensions]);
 
   function startDrawing(e) {
     if (!props.drawingEnabled) return;
@@ -65,16 +62,18 @@ function DrawableCanvas(props) {
       let height = e.clientY - canvasBox.top - rectBasePos.y;
       canvasCtx.rect(rectBasePos.x, rectBasePos.y, width, height);
       canvasCtx.strokeStyle = "black";
-      canvasCtx.lineWidth = 10;
       canvasCtx.fill();
     }
   }
   async function saveRect(e) {
     let width = e.clientX - canvasBox.left - rectBasePos.x;
     let height = e.clientY - canvasBox.top - rectBasePos.y;
-    setCurrentRect({
+    // Transform Y axis direction
+    height = height * -1;
+    let transformedBaseY = canvasBox.bottom - canvasBox.top - rectBasePos.y;
+    props.saveDrawRectDimensions({
       x: rectBasePos.x,
-      y: rectBasePos.y,
+      y: transformedBaseY,
       width,
       height
     });
@@ -93,13 +92,16 @@ function DrawableCanvas(props) {
       onMouseDown={startDrawing}
       onMouseUp={stopDrawing}
       onMouseMove={draw}
+      height={props.dimensions.height}
+      width={props.dimensions.width}
     ></canvas>
   );
 }
 
 const mapDispatchToProps = {
   stopDrawing,
-  setShowSaveConfirmation
+  setShowSaveConfirmation,
+  saveDrawRectDimensions
 };
 
 function mapStateToProps(state) {

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
+import { PDFDocument } from "pdf-lib";
 
 import DocumentFrame from "./DocumentFrame";
 import DrawableCanvas from "./DrawableCanvas";
 
 import {
+  setPage,
   startDrawing,
   setShowSaveConfirmation,
   cancelDraw
@@ -33,6 +35,16 @@ function EditorView(props) {
     });
   }
 
+  async function saveDrawnRectToPdf() {
+    props.setShowSaveConfirmation(false);
+    let pagePdfDoc = await PDFDocument.load(props.pages[pageIndex].bytes);
+    let pages = pagePdfDoc.getPages();
+    let pdfPage = pages[0];
+    pdfPage.drawRectangle(props.drawnRectDimensions);
+    let pdfBytes = await pagePdfDoc.save();
+    props.setPage(pageIndex, pdfBytes);
+  }
+
   return (
     <div className="editor-view">
       <div
@@ -55,10 +67,7 @@ function EditorView(props) {
       <div className="editor-controls">
         {props.showSaveConfirmation ? (
           <>
-            <button
-              className="btn"
-              onClick={() => props.setShowSaveConfirmation(false)}
-            >
+            <button className="btn" onClick={saveDrawnRectToPdf}>
               Save
             </button>
             <button
@@ -75,13 +84,13 @@ function EditorView(props) {
         <button className="btn" onClick={props.startDrawing}>
           Rectangle
         </button>
-        <button className="btn success">Save</button>
       </div>
     </div>
   );
 }
 
 const mapDispatchToProps = {
+  setPage,
   startDrawing,
   setShowSaveConfirmation,
   cancelDraw
@@ -90,7 +99,8 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
   return {
     pages: state.pages,
-    showSaveConfirmation: state.editor.showSaveConfirmation
+    showSaveConfirmation: state.editor.showSaveConfirmation,
+    drawnRectDimensions: state.editor.drawnRectDimensions
   };
 }
 

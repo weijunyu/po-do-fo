@@ -9,7 +9,8 @@ import {
   START_DRAWING,
   STOP_DRAWING,
   SET_SHOW_SAVE_CONFIRMATION,
-  CANCEL_DRAWING
+  CANCEL_DRAWING,
+  SAVE_DRAW_RECT
 } from "./actionTypes";
 export const addPages = pages => ({
   type: ADD_PAGES,
@@ -65,3 +66,7 @@ export const setShowSaveConfirmation = show => ({
   payload: show
 });
 export const cancelDraw = () => ({ type: CANCEL_DRAWING });
+export const saveDrawRectDimensions = rect => ({
+  type: SAVE_DRAW_RECT,
+  payload: rect
+});
