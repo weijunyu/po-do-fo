@@ -13,7 +13,6 @@ function DrawableCanvas(props) {
   const [canvasBox, canvasRef] = useBoundingBox(props.dimensions);
   const [isDrawing, setIsDrawing] = useState(false);
   const [rectBasePos, setRectBasePos] = useState({});
-  const [currentRect, setCurrentRect] = useState({});
 
   useEffect(() => {
     if (canvasRef.current) {
