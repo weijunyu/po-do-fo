@@ -5,7 +5,9 @@ import {
   SET_PAGE,
   MOVE_PAGE_UP,
   MOVE_PAGE_DOWN,
-  REMOVE_PAGE
+  REMOVE_PAGE,
+  START_DRAWING,
+  STOP_DRAWING
 } from "./actionTypes";
 export const addPages = pages => ({
   type: ADD_PAGES,
@@ -53,3 +55,6 @@ export const removePage = pageIndex => ({
   type: REMOVE_PAGE,
   payload: pageIndex
 });
+
+export const startDrawing = () => ({ type: START_DRAWING });
+export const stopDrawing = () => ({ type: STOP_DRAWING })

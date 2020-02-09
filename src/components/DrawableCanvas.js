@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
+import { stopDrawing } from "../redux/actions";
+
 import useBoundingBox from "../lib/useBoundingBox";
 
 function DrawableCanvas(props) {
@@ -15,7 +17,6 @@ function DrawableCanvas(props) {
     canvas.height = props.dimensions.height;
     canvas.width = props.dimensions.width;
   }, [canvasRef, props.dimensions]);
-
 
   function startDrawing(e) {
     if (!props.drawingEnabled) return;
@@ -33,6 +34,7 @@ function DrawableCanvas(props) {
     canvasCtx.beginPath();
 
     saveRect(event);
+    props.stopDrawing();
   }
   function draw(e) {
     if (!props.drawingEnabled) return;
@@ -81,12 +83,12 @@ function DrawableCanvas(props) {
   );
 }
 
-DrawableCanvas.defaultProps = {
-  drawingEnabled: false
+const mapDispatchToProps = {
+  stopDrawing
 };
 
 function mapStateToProps(state) {
-  return { pages: state.pages };
+  return { pages: state.pages, drawingEnabled: state.editor.drawing };
 }
 
-export default connect(mapStateToProps)(DrawableCanvas);
+export default connect(mapStateToProps, mapDispatchToProps)(DrawableCanvas);

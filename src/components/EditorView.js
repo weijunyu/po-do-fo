@@ -5,6 +5,8 @@ import { Redirect, useParams } from "react-router-dom";
 import DocumentFrame from "./DocumentFrame";
 import DrawableCanvas from "./DrawableCanvas";
 
+import { startDrawing } from "../redux/actions";
+
 import "./EditorView.css";
 
 function EditorView(props) {
@@ -44,12 +46,10 @@ function EditorView(props) {
           onRenderSuccess={getLoadedPageSize}
           style={{ position: "absolute", top: 0, left: 0 }}
         />
-        <DrawableCanvas
-          dimensions={loadedPageDimensions}
-        />
+        <DrawableCanvas dimensions={loadedPageDimensions} />
       </div>
       <div className="editor-controls">
-        <button className="btn">
+        <button className="btn" onClick={props.startDrawing}>
           Rectangle
         </button>
         <button className="btn success">Save</button>
@@ -58,8 +58,12 @@ function EditorView(props) {
   );
 }
 
+const mapDispatchToProps = {
+  startDrawing
+};
+
 function mapStateToProps(state) {
   return { pages: state.pages };
 }
 
-export default connect(mapStateToProps)(EditorView);
+export default connect(mapStateToProps, mapDispatchToProps)(EditorView);
