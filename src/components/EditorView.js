@@ -14,8 +14,6 @@ function EditorView(props) {
     width: 0,
     height: 0
   });
-  const [drawing, setDrawing] = useState(false);
-  const [showDrawConfirmation, setShowDrawConfirmation] = useState(false);
 
   if (props.pages.length === 0) {
     return <Redirect to="/" />;
@@ -27,19 +25,6 @@ function EditorView(props) {
       width: canvas.offsetWidth,
       height: canvas.offsetHeight
     });
-  }
-
-  function onDrawComplete() {
-    setDrawing(false);
-    setShowDrawConfirmation(true);
-  }
-
-  function saveCanvasToPdf() {
-    setShowDrawConfirmation(false);
-  }
-
-  function cancelCanvasEdit() {
-    setShowDrawConfirmation(false);
   }
 
   return (
@@ -61,22 +46,10 @@ function EditorView(props) {
         />
         <DrawableCanvas
           dimensions={loadedPageDimensions}
-          drawingEnabled={drawing}
-          onDrawComplete={onDrawComplete}
         />
       </div>
       <div className="editor-controls">
-        {showDrawConfirmation ? (
-          <>
-            <button className="btn" onClick={saveCanvasToPdf}>
-              Save
-            </button>
-            <button className="btn" onClick={cancelCanvasEdit}>
-              Cancel
-            </button>
-          </>
-        ) : null}
-        <button className="btn" onClick={() => setDrawing(true)}>
+        <button className="btn">
           Rectangle
         </button>
         <button className="btn success">Save</button>

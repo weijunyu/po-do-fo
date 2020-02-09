@@ -16,20 +16,6 @@ function DrawableCanvas(props) {
     canvas.width = props.dimensions.width;
   }, [canvasRef, props.dimensions]);
 
-  useEffect(() => {
-    if (props.clearCanvas && canvasRef.current) {
-      let canvasCtx = canvasRef.current.getContext("2d");
-
-      canvasCtx.clearRect(
-        0,
-        0,
-        canvasRef.current.width,
-        canvasRef.current.height
-      );
-
-      props.onDrawCancelled();
-    }
-  }, [canvasRef, props]);
 
   function startDrawing(e) {
     if (!props.drawingEnabled) return;
@@ -47,8 +33,6 @@ function DrawableCanvas(props) {
     canvasCtx.beginPath();
 
     saveRect(event);
-
-    props.onDrawComplete();
   }
   function draw(e) {
     if (!props.drawingEnabled) return;
@@ -98,8 +82,7 @@ function DrawableCanvas(props) {
 }
 
 DrawableCanvas.defaultProps = {
-  onDrawComplete: () => {},
-  onDrawCancelled: () => {}
+  drawingEnabled: false
 };
 
 function mapStateToProps(state) {
