@@ -5,7 +5,11 @@ import { Redirect, useParams } from "react-router-dom";
 import DocumentFrame from "./DocumentFrame";
 import DrawableCanvas from "./DrawableCanvas";
 
-import { startDrawing } from "../redux/actions";
+import {
+  startDrawing,
+  setShowSaveConfirmation,
+  cancelDraw
+} from "../redux/actions";
 
 import "./EditorView.css";
 
@@ -49,6 +53,25 @@ function EditorView(props) {
         <DrawableCanvas dimensions={loadedPageDimensions} />
       </div>
       <div className="editor-controls">
+        {props.showSaveConfirmation ? (
+          <>
+            <button
+              className="btn"
+              onClick={() => props.setShowSaveConfirmation(false)}
+            >
+              Save
+            </button>
+            <button
+              className="btn"
+              onClick={() => {
+                props.cancelDraw();
+                props.setShowSaveConfirmation(false);
+              }}
+            >
+              Cancel
+            </button>
+          </>
+        ) : null}
         <button className="btn" onClick={props.startDrawing}>
           Rectangle
         </button>
@@ -59,11 +82,16 @@ function EditorView(props) {
 }
 
 const mapDispatchToProps = {
-  startDrawing
+  startDrawing,
+  setShowSaveConfirmation,
+  cancelDraw
 };
 
 function mapStateToProps(state) {
-  return { pages: state.pages };
+  return {
+    pages: state.pages,
+    showSaveConfirmation: state.editor.showSaveConfirmation
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditorView);

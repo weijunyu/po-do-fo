@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
-import { stopDrawing } from "../redux/actions";
+import { stopDrawing, setShowSaveConfirmation } from "../redux/actions";
 
 import useBoundingBox from "../lib/useBoundingBox";
 
@@ -10,6 +10,19 @@ function DrawableCanvas(props) {
   const [isDrawing, setIsDrawing] = useState(false);
   const [rectBasePos, setRectBasePos] = useState({});
   const [currentRect, setCurrentRect] = useState({});
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      let canvasCtx = canvasRef.current.getContext("2d");
+
+      canvasCtx.clearRect(
+        0,
+        0,
+        canvasRef.current.width,
+        canvasRef.current.height
+      );
+    }
+  }, [canvasRef, props.cancelDrawingIndicator]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -35,6 +48,7 @@ function DrawableCanvas(props) {
 
     saveRect(event);
     props.stopDrawing();
+    props.setShowSaveConfirmation(true);
   }
   function draw(e) {
     if (!props.drawingEnabled) return;
@@ -84,11 +98,16 @@ function DrawableCanvas(props) {
 }
 
 const mapDispatchToProps = {
-  stopDrawing
+  stopDrawing,
+  setShowSaveConfirmation
 };
 
 function mapStateToProps(state) {
-  return { pages: state.pages, drawingEnabled: state.editor.drawing };
+  return {
+    pages: state.pages,
+    drawingEnabled: state.editor.drawing,
+    cancelDrawingIndicator: state.editor.cancelDrawingIndicator
+  };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DrawableCanvas);

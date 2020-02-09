@@ -7,7 +7,9 @@ import {
   MOVE_PAGE_DOWN,
   REMOVE_PAGE,
   START_DRAWING,
-  STOP_DRAWING
+  STOP_DRAWING,
+  SET_SHOW_SAVE_CONFIRMATION,
+  CANCEL_DRAWING
 } from "./actionTypes";
 export const addPages = pages => ({
   type: ADD_PAGES,
@@ -57,4 +59,9 @@ export const removePage = pageIndex => ({
 });
 
 export const startDrawing = () => ({ type: START_DRAWING });
-export const stopDrawing = () => ({ type: STOP_DRAWING })
+export const stopDrawing = () => ({ type: STOP_DRAWING });
+export const setShowSaveConfirmation = show => ({
+  type: SET_SHOW_SAVE_CONFIRMATION,
+  payload: show
+});
+export const cancelDraw = () => ({ type: CANCEL_DRAWING });
