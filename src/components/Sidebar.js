@@ -58,7 +58,7 @@ function PdfLoader(props) {
     <>
       <div className="loader"></div>
       {props.pages.length > 0 ? (
-        <button className="btn primary export" onClick={exportPdf}>
+        <button className="btn primary compressed" onClick={exportPdf}>
           Export PDF
         </button>
       ) : null}
