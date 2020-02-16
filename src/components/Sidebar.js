@@ -54,13 +54,41 @@ function PdfLoader(props) {
     saveAs(file);
   }
 
+  async function exportPdfImaged() {
+    // new pdf doc
+    let newDoc = await PDFDocument.create();
+    let canvases = document.querySelectorAll("canvas.react-pdf__Page__canvas");
+    // for every canvas element,
+    // get image, make new page, copy image to new page
+    for (let canvas of canvases) {
+      let b64CanvasImage = canvas.toDataURL();
+      let pdfImg = await newDoc.embedPng(b64CanvasImage);
+      let newPage = newDoc.addPage([pdfImg.width, pdfImg.height]);
+      newPage.drawImage(pdfImg, {
+        x: 0,
+        y: 0,
+        width: pdfImg.width,
+        height: pdfImg.height
+      });
+    }
+    // let user download pdf doc
+    let final = await newDoc.save();
+    const file = new File([final], "export.pdf", { type: "application/pdf" });
+    saveAs(file);
+  }
+
   return (
     <>
       <div className="loader"></div>
       {props.pages.length > 0 ? (
-        <button className="btn primary compressed" onClick={exportPdf}>
-          Export PDF
-        </button>
+        <>
+          <button className="btn primary compressed" onClick={exportPdf}>
+            Export PDF
+          </button>
+          <button className="btn primary compressed" onClick={exportPdfImaged}>
+            Export PDF (Image)
+          </button>
+        </>
       ) : null}
     </>
   );
