@@ -25,7 +25,7 @@ function DrawableCanvas(props) {
         canvasRef.current.height
       );
     }
-  }, [canvasRef, props.cancelDrawingIndicator]);
+  }, [canvasRef]);
 
   function startDrawing(e) {
     if (!props.drawingEnabled) return;
@@ -107,7 +107,6 @@ function mapStateToProps(state) {
   return {
     pages: state.pages,
     drawingEnabled: state.editor.drawing,
-    cancelDrawingIndicator: state.editor.cancelDrawingIndicator
   };
 }
 

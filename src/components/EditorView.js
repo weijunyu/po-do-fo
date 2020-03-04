@@ -9,8 +9,8 @@ import DrawableCanvas from "./DrawableCanvas";
 import {
   setPage,
   startDrawing,
-  setShowSaveConfirmation,
-  cancelDraw
+  setShowSaveConfirmation
+  
 } from "../redux/actions";
 
 import "./EditorView.css";
@@ -73,7 +73,6 @@ function EditorView(props) {
             <button
               className="btn"
               onClick={() => {
-                props.cancelDraw();
                 props.setShowSaveConfirmation(false);
               }}
             >
@@ -82,7 +81,7 @@ function EditorView(props) {
           </>
         ) : null}
         <button className="btn" onClick={props.startDrawing}>
-          Rectangle
+          Rectangle (fill)
         </button>
       </div>
     </div>
@@ -93,7 +92,6 @@ const mapDispatchToProps = {
   setPage,
   startDrawing,
   setShowSaveConfirmation,
-  cancelDraw
 };
 
 function mapStateToProps(state) {
