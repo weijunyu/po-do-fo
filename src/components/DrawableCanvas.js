@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { connect } from "react-redux";
 
 import {
@@ -7,25 +7,14 @@ import {
   saveDrawRectDimensions
 } from "../redux/actions";
 
-import useBoundingBox from "../lib/useBoundingBox";
+import DrawableCanvasContext from "../context/DrawableCanvasContext";
 
 function DrawableCanvas(props) {
-  const [canvasBox, canvasRef] = useBoundingBox(props.dimensions);
+  const drawableCanvasContext = useContext(DrawableCanvasContext);
+  const canvasBox = drawableCanvasContext.bbox;
+  const canvasRef = drawableCanvasContext.ref;
   const [isDrawing, setIsDrawing] = useState(false);
   const [rectBasePos, setRectBasePos] = useState({});
-
-  useEffect(() => {
-    if (canvasRef.current) {
-      let canvasCtx = canvasRef.current.getContext("2d");
-
-      canvasCtx.clearRect(
-        0,
-        0,
-        canvasRef.current.width,
-        canvasRef.current.height
-      );
-    }
-  }, [canvasRef]);
 
   function startDrawing(e) {
     if (!props.drawingEnabled) return;
@@ -106,7 +95,7 @@ const mapDispatchToProps = {
 function mapStateToProps(state) {
   return {
     pages: state.pages,
-    drawingEnabled: state.editor.drawing,
+    drawingEnabled: state.editor.drawing
   };
 }
 

@@ -11,12 +11,16 @@ import store from "./redux/store";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "./normalize.css";
 
+import { DrawableCanvasContextProvider } from "./context/DrawableCanvasContext";
+
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 ReactDOM.render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <DrawableCanvasContextProvider>
+        <App />
+      </DrawableCanvasContextProvider>
     </Provider>
   </BrowserRouter>,
   document.getElementById("root")

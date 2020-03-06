@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { connect } from "react-redux";
 import { Redirect, useParams } from "react-router-dom";
 import { PDFDocument } from "pdf-lib";
@@ -6,11 +6,12 @@ import { PDFDocument } from "pdf-lib";
 import DocumentFrame from "./DocumentFrame";
 import DrawableCanvas from "./DrawableCanvas";
 
+import DrawableCanvasContext from "../context/DrawableCanvasContext";
+
 import {
   setPage,
   startDrawing,
   setShowSaveConfirmation
-  
 } from "../redux/actions";
 
 import "./EditorView.css";
@@ -18,10 +19,9 @@ import "./EditorView.css";
 function EditorView(props) {
   const routeParams = useParams();
   const pageIndex = parseInt(routeParams.pageIndex);
-  const [loadedPageDimensions, setLoadedPageDimensions] = useState({
-    width: 0,
-    height: 0
-  });
+  const { dimensions, setDimensions, clearCanvas } = useContext(
+    DrawableCanvasContext
+  );
 
   if (props.pages.length === 0) {
     return <Redirect to="/" />;
@@ -29,7 +29,7 @@ function EditorView(props) {
 
   function getLoadedPageSize() {
     let canvas = document.querySelector(`canvas.react-pdf__Page__canvas`);
-    setLoadedPageDimensions({
+    setDimensions({
       width: canvas.offsetWidth,
       height: canvas.offsetHeight
     });
@@ -51,8 +51,8 @@ function EditorView(props) {
         className="document-editor-container"
         style={{
           position: "relative",
-          width: loadedPageDimensions.width,
-          height: loadedPageDimensions.height
+          width: dimensions.width,
+          height: dimensions.height
         }}
       >
         <DocumentFrame
@@ -62,7 +62,7 @@ function EditorView(props) {
           onRenderSuccess={getLoadedPageSize}
           style={{ position: "absolute", top: 0, left: 0 }}
         />
-        <DrawableCanvas dimensions={loadedPageDimensions} />
+        <DrawableCanvas dimensions={dimensions} />
       </div>
       <div className="editor-controls">
         {props.showSaveConfirmation ? (
@@ -74,6 +74,7 @@ function EditorView(props) {
               className="btn"
               onClick={() => {
                 props.setShowSaveConfirmation(false);
+                clearCanvas();
               }}
             >
               Cancel
@@ -91,7 +92,7 @@ function EditorView(props) {
 const mapDispatchToProps = {
   setPage,
   startDrawing,
-  setShowSaveConfirmation,
+  setShowSaveConfirmation
 };
 
 function mapStateToProps(state) {
