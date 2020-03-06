@@ -8,7 +8,7 @@ import {
   REMOVE_PAGE,
   SET_PAGE
 } from "../actionTypes";
-const initialState = [{id: uuidv4(), bytes: seedDoc}];
+const initialState = [{ id: uuidv4(), bytes: seedDoc }];
 
 function swapArrayIndices(arr, first, second) {
   let temp = arr[first];
@@ -31,7 +31,7 @@ export default function(state = initialState, action) {
       return state.map((page, index) => {
         if (index === pageIndex) {
           return {
-            id: uuidv4(),
+            id: page.id || uuidv4(),
             bytes: pageBytes
           };
         }

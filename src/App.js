@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
 import MainPdfView from "./components/MainPdfView";
-import EditorView from "./components/EditorView";
+import Editor from "./components/Editor";
 import Sidebar from "./components/Sidebar";
 
 import "./App.css";
@@ -13,7 +13,7 @@ class App extends React.Component {
         <div className="main">
           <Switch>
             <Route path="/edit/:pageIndex">
-              <EditorView />
+              <Editor />
             </Route>
             <Route path="/">
               <MainPdfView />
