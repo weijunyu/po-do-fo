@@ -1,34 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { Document, Page } from "react-pdf";
 import "./DocumentFrame.css";
 
-class DocumentFrame extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.state.blob = new Blob([this.props.pageBytes], {
+function DocumentFrame(props) {
+  const [blobUrl, setBlobUrl] = useState(null);
+  useEffect(() => {
+    const blob = new Blob([props.pageBytes], {
       type: "application/pdf"
     });
-    this.state.blobUrl = URL.createObjectURL(this.state.blob);
-  }
 
-  render() {
-    return (
-      <div className="document-frame" style={this.props.style}>
-        <Document
-          file={this.state.blobUrl}
-          className={`${this.props.className}-doc`}
-        >
-          <Page
-            pageNumber={1}
-            className={this.props.className}
-            onRenderSuccess={this.props.onRenderSuccess}
-          />
-        </Document>
-      </div>
-    );
-  }
+    setBlobUrl(URL.createObjectURL(blob));
+  }, [props.pageBytes]);
+  return (
+    <div className="document-frame" style={props.style}>
+      <Document file={blobUrl} className={`${props.className}-doc`}>
+        <Page
+          pageNumber={1}
+          className={props.className}
+          onRenderSuccess={props.onRenderSuccess}
+        />
+      </Document>
+    </div>
+  );
 }
 
 DocumentFrame.defaultProps = {
@@ -41,6 +35,7 @@ DocumentFrame.propTypes = {
       ? null
       : new Error("pageBytes should be a TypedArray.");
   },
+  style: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
   className: PropTypes.string
 };
 
