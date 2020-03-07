@@ -38,7 +38,7 @@ function PdfLoader(props) {
         loadPagesFromFile(currentFile);
       }
     }).use(DragDrop, {
-      target: ".loader"
+      target: ".pdf-loader"
     });
   }, [loadPagesFromFile]);
 
@@ -79,7 +79,7 @@ function PdfLoader(props) {
 
   return (
     <>
-      <div className="loader"></div>
+      <div className="pdf-loader"></div>
       {props.pages.length > 0 ? (
         <>
           <button className="btn primary compressed" onClick={exportPdf}>

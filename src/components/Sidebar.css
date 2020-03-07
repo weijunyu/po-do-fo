@@ -10,16 +10,16 @@
   display: flex;
 }
 
-.loader {
+.pdf-loader {
   flex: 1 1 auto;
 }
 
-.sidebar .loader .uppy-DragDrop-inner {
+.sidebar .pdf-loader .uppy-DragDrop-inner {
   display: flex;
   align-items: center;
 }
 
-.sidebar .loader .uppy-DragDrop-inner .uppy-DragDrop-arrow {
+.sidebar .pdf-loader .uppy-DragDrop-inner .uppy-DragDrop-arrow {
   margin-bottom: 0;
 }
 
