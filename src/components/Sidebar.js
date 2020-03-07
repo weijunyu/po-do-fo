@@ -54,7 +54,7 @@ function PdfLoader(props) {
     saveAs(file);
   }
 
-  async function exportPdfImaged() {
+  async function exportPdfInImages() {
     // new pdf doc
     let newDoc = await PDFDocument.create();
     let canvases = document.querySelectorAll("canvas.react-pdf__Page__canvas");
@@ -85,8 +85,8 @@ function PdfLoader(props) {
           <button className="btn primary compressed" onClick={exportPdf}>
             Export PDF
           </button>
-          <button className="btn primary compressed" onClick={exportPdfImaged}>
-            Export PDF (Image)
+          <button className="btn primary compressed" onClick={exportPdfInImages}>
+            Export PDF (Image Mode)
           </button>
         </>
       ) : null}
