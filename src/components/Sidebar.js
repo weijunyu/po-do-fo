@@ -10,7 +10,7 @@ import { loadPagesFromFile } from "../redux/actions";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/drag-drop/dist/style.css";
-import "./Sidebar.css";
+import "./Sidebar.scss";
 
 function Sidebar(props) {
   const match = useRouteMatch("/edit");
@@ -18,7 +18,7 @@ function Sidebar(props) {
   return (
     <div className="sidebar">
       {match ? (
-        <Link to="/" className="btn primary back">
+        <Link to="/" className="button is-primary">
           Back
         </Link>
       ) : (
@@ -82,10 +82,10 @@ function PdfLoader(props) {
       <div className="pdf-loader"></div>
       {props.pages.length > 0 ? (
         <>
-          <button className="btn primary compressed" onClick={exportPdf}>
+          <button className="button is-primary compressed" onClick={exportPdf}>
             Export PDF
           </button>
-          <button className="btn primary compressed" onClick={exportPdfInImages}>
+          <button className="button is-primary compressed" onClick={exportPdfInImages}>
             Export PDF (Image Mode)
           </button>
         </>
