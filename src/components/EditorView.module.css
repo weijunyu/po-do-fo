@@ -1,0 +1,19 @@
+.editor-view {
+  position: relative;
+}
+
+.editor-controls {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+.save-drawing-confirmation {
+  position: absolute;
+  z-index: 1;
+  transform: translateY(-100%);
+}
+
+.save-drawing-confirmation button {
+  margin-left: 0.2rem;
+}

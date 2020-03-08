@@ -14,12 +14,33 @@ import {
   setShowSaveConfirmation
 } from "../redux/actions";
 
-import "./EditorView.css";
+import editorViewStyles from "./EditorView.module.css";
 
 function EditorView(props) {
   const { dimensions, setDimensions, clearCanvas } = useContext(
     DrawableCanvasContext
   );
+
+  function onSaveDrawingClick() {
+    props.stopDrawing();
+    props.setShowSaveConfirmation(false);
+    saveDrawnRectToPdf();
+  }
+
+  function onCancelDrawingClick() {
+    props.stopDrawing();
+    props.setShowSaveConfirmation(false);
+    clearCanvas();
+  }
+
+  function onDrawRectangleClick() {
+    if (!props.drawing) {
+      props.startDrawing();
+    } else {
+      onCancelDrawingClick();
+      props.stopDrawing();
+    }
+  }
 
   function getLoadedPageSize() {
     let canvas = document.querySelector(`canvas.react-pdf__Page__canvas`);
@@ -39,62 +60,52 @@ function EditorView(props) {
     props.setPage(props.pageIndex, pdfBytes);
   }
 
-  function onDrawRectangleClick() {
-    if (!props.drawing) {
-      props.startDrawing();
-    } else {
-      props.stopDrawing();
-    }
-  }
-
   return (
-    <div className="editor-view container is-fluid">
-      <div className="columns">
-        <div className="column">
+    <div className={editorViewStyles["editor-view"] + " container"}>
+      <div className={editorViewStyles["editor-controls"]}>
+        <button
+          className={`button is-small ${props.drawing ? "is-primary" : ""}`}
+          onClick={onDrawRectangleClick}
+        >
+          Rectangle (fill)
+        </button>
+      </div>
+
+      <div
+        className="document-editor-container"
+        style={{
+          position: "relative",
+          width: dimensions.width,
+          height: dimensions.height,
+          margin: "0 auto"
+        }}
+      >
+        {props.showSaveConfirmation ? (
           <div
-            className="document-editor-container"
+            className={editorViewStyles["save-drawing-confirmation"]}
             style={{
-              position: "relative",
-              width: dimensions.width,
-              height: dimensions.height,
-              margin: "0 auto"
+              left: props.canvasMouseupPosition.left,
+              top: props.canvasMouseupPosition.top
             }}
           >
-            <DocumentFrame
-              pageBytes={props.page.bytes}
-              className={`page-${props.pageIndex}`}
-              onRenderSuccess={getLoadedPageSize}
-              style={{ position: "absolute", top: 0, left: 0 }}
-            />
-            <DrawableCanvas dimensions={dimensions} />
-          </div>
-        </div>
-        <div className="editor-controls column is-3">
-          {props.showSaveConfirmation ? (
-            <>
-              <button className="btn" onClick={saveDrawnRectToPdf}>
-                Save
-              </button>
-              <button
-                className="btn"
-                onClick={() => {
-                  props.setShowSaveConfirmation(false);
-                  clearCanvas();
-                }}
-              >
-                Cancel
-              </button>
-            </>
-          ) : null}
-          {props.showSaveConfirmation ? null : (
             <button
-              className={`btn ${props.drawing ? "primary" : ""}`}
-              onClick={onDrawRectangleClick}
+              className="button is-primary is-small"
+              onClick={onSaveDrawingClick}
             >
-              Rectangle (fill)
+              Save
             </button>
-          )}
-        </div>
+            <button className="button is-small" onClick={onCancelDrawingClick}>
+              Cancel
+            </button>
+          </div>
+        ) : null}
+        <DocumentFrame
+          pageBytes={props.page.bytes}
+          className={`page-${props.pageIndex}`}
+          onRenderSuccess={getLoadedPageSize}
+          style={{ position: "absolute", top: 0, left: 0 }}
+        />
+        <DrawableCanvas dimensions={dimensions} />
       </div>
     </div>
   );
@@ -111,7 +122,8 @@ function mapStateToProps(state) {
   return {
     drawing: state.editor.drawing,
     showSaveConfirmation: state.editor.showSaveConfirmation,
-    drawnRectDimensions: state.editor.drawnRectDimensions
+    drawnRectDimensions: state.editor.drawnRectDimensions,
+    canvasMouseupPosition: state.editor.canvasMouseupPosition
   };
 }
 

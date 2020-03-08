@@ -2,13 +2,15 @@ import {
   START_DRAWING,
   STOP_DRAWING,
   SET_SHOW_SAVE_CONFIRMATION,
-  SAVE_DRAW_RECT
+  SAVE_DRAW_RECT,
+  SAVE_CANVAS_MOUSEUP_POSITION
 } from "../actionTypes";
 
 const initialState = {
   drawing: false,
   showSaveConfirmation: false,
-  drawnRectDimensions: {}
+  drawnRectDimensions: {},
+  canvasMouseupPosition: {}
 };
 
 export default function(state = initialState, action) {
@@ -33,6 +35,12 @@ export default function(state = initialState, action) {
     }
     case SAVE_DRAW_RECT: {
       return { ...state, drawnRectDimensions: action.payload };
+    }
+    case SAVE_CANVAS_MOUSEUP_POSITION: {
+      return {
+        ...state,
+        canvasMouseupPosition: action.payload
+      };
     }
     default: {
       return state;

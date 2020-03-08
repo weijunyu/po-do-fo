@@ -1,9 +1,0 @@
-.editor-view {
-  position: relative;
-}
-
-.editor-controls {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}

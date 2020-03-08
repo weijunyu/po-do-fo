@@ -4,7 +4,7 @@ import MainPdfView from "./components/MainPdfView";
 import Editor from "./components/Editor";
 import Sidebar from "./components/Sidebar";
 
-import "./App.css";
+import "./App.scss";
 
 class App extends React.Component {
   render() {

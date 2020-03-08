@@ -9,7 +9,8 @@ import {
   START_DRAWING,
   STOP_DRAWING,
   SET_SHOW_SAVE_CONFIRMATION,
-  SAVE_DRAW_RECT
+  SAVE_DRAW_RECT,
+  SAVE_CANVAS_MOUSEUP_POSITION
 } from "./actionTypes";
 export const addPages = pages => ({
   type: ADD_PAGES,
@@ -60,6 +61,15 @@ export const removePage = pageIndex => ({
 
 export const startDrawing = () => ({ type: START_DRAWING });
 export const stopDrawing = () => ({ type: STOP_DRAWING });
+export const saveCanvasDrawingDetails = ({
+  canvasMouseupPosition = {},
+  drawnRectDimensions = {}
+}) => {
+  return dispatch => {
+    dispatch(saveCanvasMouseupPosition(canvasMouseupPosition));
+    dispatch(saveDrawRectDimensions(drawnRectDimensions));
+  };
+};
 export const setShowSaveConfirmation = show => ({
   type: SET_SHOW_SAVE_CONFIRMATION,
   payload: show
@@ -68,3 +78,9 @@ export const saveDrawRectDimensions = rect => ({
   type: SAVE_DRAW_RECT,
   payload: rect
 });
+export const saveCanvasMouseupPosition = position => {
+  return {
+    type: SAVE_CANVAS_MOUSEUP_POSITION,
+    payload: position
+  };
+};

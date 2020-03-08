@@ -1,10 +1,10 @@
 import React, { useState, useContext } from "react";
 import { connect } from "react-redux";
+import PropTypes from "prop-types";
 
 import {
-  stopDrawing,
-  setShowSaveConfirmation,
-  saveDrawRectDimensions
+  saveCanvasDrawingDetails,
+  setShowSaveConfirmation
 } from "../redux/actions";
 
 import DrawableCanvasContext from "../context/DrawableCanvasContext";
@@ -16,7 +16,7 @@ function DrawableCanvas(props) {
   const [isDrawing, setIsDrawing] = useState(false);
   const [rectBasePos, setRectBasePos] = useState({});
 
-  function startDrawing(e) {
+  function onCanvasMouseDown(e) {
     if (!props.drawingEnabled) return;
     setIsDrawing(true);
     setRectBasePos({
@@ -24,15 +24,32 @@ function DrawableCanvas(props) {
       y: e.clientY - canvasBox.top
     });
   }
-  function stopDrawing(event) {
+  function onCanvasMouseUp(event) {
     if (!props.drawingEnabled) return;
     setIsDrawing(false);
 
     let canvasCtx = canvasRef.current.getContext("2d");
     canvasCtx.beginPath();
 
-    saveRect(event);
-    props.stopDrawing();
+    // Save rect properties in state; used for drawing on PDF
+    let width = event.clientX - canvasBox.left - rectBasePos.x;
+    let height = event.clientY - canvasBox.top - rectBasePos.y;
+    // Transform Y axis direction
+    height = height * -1;
+    let transformedBaseY = canvasBox.bottom - canvasBox.top - rectBasePos.y;
+
+    props.saveCanvasDrawingDetails({
+      canvasMouseupPosition: {
+        left: event.clientX - canvasBox.left,
+        top: event.clientY - canvasBox.top
+      },
+      drawnRectDimensions: {
+        x: rectBasePos.x,
+        y: transformedBaseY,
+        width,
+        height
+      }
+    });
     props.setShowSaveConfirmation(true);
   }
   function draw(e) {
@@ -53,19 +70,6 @@ function DrawableCanvas(props) {
       canvasCtx.fill();
     }
   }
-  async function saveRect(e) {
-    let width = e.clientX - canvasBox.left - rectBasePos.x;
-    let height = e.clientY - canvasBox.top - rectBasePos.y;
-    // Transform Y axis direction
-    height = height * -1;
-    let transformedBaseY = canvasBox.bottom - canvasBox.top - rectBasePos.y;
-    props.saveDrawRectDimensions({
-      x: rectBasePos.x,
-      y: transformedBaseY,
-      width,
-      height
-    });
-  }
 
   return (
     <canvas
@@ -77,8 +81,8 @@ function DrawableCanvas(props) {
         left: 0,
         cursor: props.drawingEnabled ? "crosshair" : "auto"
       }}
-      onMouseDown={startDrawing}
-      onMouseUp={stopDrawing}
+      onMouseDown={onCanvasMouseDown}
+      onMouseUp={onCanvasMouseUp}
       onMouseMove={draw}
       height={props.dimensions.height}
       width={props.dimensions.width}
@@ -86,16 +90,24 @@ function DrawableCanvas(props) {
   );
 }
 
+DrawableCanvas.propTypes = {
+  drawingEnabled: PropTypes.bool.isRequired, // E.g. external button to enable drawing
+  saveCanvasDrawingDetails: PropTypes.func.isRequired, // Signal that draw is done
+
+  dimensions: PropTypes.shape({
+    height: PropTypes.number,
+    width: PropTypes.number
+  })
+};
+
 const mapDispatchToProps = {
-  stopDrawing,
-  setShowSaveConfirmation,
-  saveDrawRectDimensions
+  saveCanvasDrawingDetails,
+  setShowSaveConfirmation
 };
 
 function mapStateToProps(state) {
   return {
-    pages: state.pages,
-    drawingEnabled: state.editor.drawing
+    drawingEnabled: state.editor.drawing // Whenever button clicked, enter drawing state
   };
 }
 
