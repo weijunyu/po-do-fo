@@ -18,27 +18,29 @@ function MainPdfView(props) {
                 className={`page-${index}`}
               ></DocumentFrame>
               <div className="page-controls">
-                <button className="btn" onClick={() => props.movePageUp(index)}>
+                <button
+                  className="button"
+                  onClick={() => props.movePageUp(index)}
+                >
                   <i className="fas fa-chevron-up"></i>
-                  <br />
                   Move up
                 </button>
                 <button
-                  className="btn"
+                  className="button"
                   onClick={() => props.movePageDown(index)}
                 >
-                  Move down
-                  <br />
                   <i className="fas fa-chevron-down"></i>
+                  Move down
                 </button>
-                <Link to={`/edit/${index}`} className="btn">
-                  Edit
+                <Link to={`/edit/${index}`} className="button">
+                  <i className="fas fa-edit"></i>Edit page
                 </Link>
                 <button
-                  className="btn secondary"
+                  className="button is-dark"
                   onClick={() => props.removePage(index)}
                 >
                   <i className="fas fa-trash"></i>
+                  Remove page
                 </button>
               </div>
             </div>

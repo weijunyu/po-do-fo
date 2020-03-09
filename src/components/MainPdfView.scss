@@ -16,6 +16,17 @@
   flex-direction: column;
   justify-content: center;
   padding: 0 0.1rem;
+  .button {
+    display: flex;
+    justify-content: flex-start;
+    &:not(:last-child) {
+      margin-bottom: 0.1rem;
+    }
+    i.fas {
+      width: 14px;
+      margin-right: 1rem;
+    }
+  }
 }
 
 .page-controls .btn:not(:last-child) {
