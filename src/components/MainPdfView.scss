@@ -25,3 +25,11 @@
 .document-container:not(:last-child) {
   margin-bottom: 0.25rem;
 }
+
+.load-doc-header {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+}

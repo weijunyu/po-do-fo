@@ -1,5 +1,5 @@
 @charset "utf-8";
-$primary: #151E3F;
+$primary: #151e3f;
 @import "~bulma/bulma";
 
 :root {
@@ -30,6 +30,7 @@ body * {
 
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .btn {

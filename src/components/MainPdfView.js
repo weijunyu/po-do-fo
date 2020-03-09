@@ -2,10 +2,9 @@ import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import DocumentFrame from "./DocumentFrame";
-import CanvasFun from "./CanvasFun";
 import { movePageUp, movePageDown, removePage } from "../redux/actions";
 
-import "./MainPdfView.css";
+import "./MainPdfView.scss";
 
 function MainPdfView(props) {
   return (
@@ -46,10 +45,7 @@ function MainPdfView(props) {
           );
         })
       ) : (
-        <>
-          <h1>Load a document</h1>
-          <CanvasFun />
-        </>
+        <h1 className="load-doc-header">Load a document</h1>
       )}
     </div>
   );
