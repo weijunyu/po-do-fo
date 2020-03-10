@@ -59,7 +59,14 @@ export const removePage = pageIndex => ({
   payload: pageIndex
 });
 
-export const startDrawing = () => ({ type: START_DRAWING });
+export const startDrawing = ({ mode }) => {
+  return {
+    type: START_DRAWING,
+    payload: {
+      mode
+    }
+  }
+};
 export const stopDrawing = () => ({ type: STOP_DRAWING });
 export const saveCanvasDrawingDetails = ({
   canvasMouseupPosition = {},

@@ -17,7 +17,7 @@ function DrawableCanvas(props) {
   const [rectBasePos, setRectBasePos] = useState({});
 
   function onCanvasMouseDown(e) {
-    if (!props.drawingEnabled) return;
+    if (!props.drawingMode) return;
     setIsDrawing(true);
     setRectBasePos({
       x: e.clientX - canvasBox.left,
@@ -25,7 +25,7 @@ function DrawableCanvas(props) {
     });
   }
   function onCanvasMouseUp(event) {
-    if (!props.drawingEnabled) return;
+    if (!props.drawingMode) return;
     setIsDrawing(false);
 
     let canvasCtx = canvasRef.current.getContext("2d");
@@ -53,7 +53,7 @@ function DrawableCanvas(props) {
     props.setShowSaveConfirmation(true);
   }
   function draw(e) {
-    if (!props.drawingEnabled) return;
+    if (!props.drawingMode) return;
     let canvasCtx = canvasRef.current.getContext("2d");
     if (isDrawing) {
       canvasCtx.clearRect(
@@ -79,7 +79,7 @@ function DrawableCanvas(props) {
         position: "absolute",
         top: 0,
         left: 0,
-        cursor: props.drawingEnabled ? "crosshair" : "auto"
+        cursor: props.drawingMode ? "crosshair" : "auto"
       }}
       onMouseDown={onCanvasMouseDown}
       onMouseUp={onCanvasMouseUp}
@@ -91,7 +91,12 @@ function DrawableCanvas(props) {
 }
 
 DrawableCanvas.propTypes = {
-  drawingEnabled: PropTypes.bool.isRequired, // E.g. external button to enable drawing
+  drawingMode: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.shape({
+      mode: PropTypes.string
+    })
+  ]), // "rectangle", "pen" buttons set drawingMode.
   saveCanvasDrawingDetails: PropTypes.func.isRequired, // Signal that draw is done
 
   dimensions: PropTypes.shape({
@@ -107,7 +112,7 @@ const mapDispatchToProps = {
 
 function mapStateToProps(state) {
   return {
-    drawingEnabled: state.editor.drawing // Whenever button clicked, enter drawing state
+    drawingMode: state.editor.drawing // Whenever button clicked, enter drawing state
   };
 }
 

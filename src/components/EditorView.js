@@ -35,10 +35,21 @@ function EditorView(props) {
 
   function onDrawRectangleClick() {
     if (!props.drawing) {
-      props.startDrawing();
+      props.startDrawing({
+        mode: "rectangle"
+      });
     } else {
       onCancelDrawingClick();
-      props.stopDrawing();
+    }
+  }
+
+  function onDrawPenClick() {
+    if (!props.drawing) {
+      props.startDrawing({
+        mode: "pen"
+      });
+    } else {
+      onCancelDrawingClick();
     }
   }
 
@@ -64,10 +75,22 @@ function EditorView(props) {
     <div className={editorViewStyles["editor-view"] + " container"}>
       <div className={editorViewStyles["editor-controls"]}>
         <button
-          className={`button is-small ${props.drawing ? "is-primary" : ""}`}
+          className={`button is-small ${
+            props.drawing && props.drawing.mode === "rectangle"
+              ? "is-primary"
+              : ""
+          }`}
           onClick={onDrawRectangleClick}
         >
           Rectangle (fill)
+        </button>
+        <button
+          className={`button is-small ${
+            props.drawing && props.drawing.mode === "pen" ? "is-primary" : ""
+          }`}
+          onClick={onDrawPenClick}
+        >
+          Pen
         </button>
       </div>
 

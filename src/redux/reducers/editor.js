@@ -18,7 +18,7 @@ export default function(state = initialState, action) {
     case START_DRAWING: {
       return {
         ...state,
-        drawing: true
+        drawing: action.payload
       };
     }
     case STOP_DRAWING: {
