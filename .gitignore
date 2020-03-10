@@ -24,3 +24,5 @@ yarn-error.log*
 
 .firebase
 report.*.json
+firebase-debug.log
+.firebaserc

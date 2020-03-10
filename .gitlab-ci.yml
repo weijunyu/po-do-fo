@@ -12,6 +12,6 @@ deploy_production:
     - npm install -g firebase-tools
     - npm ci
     - npm run build
-    - firebase deploy
+    - firebase deploy --token "$FIREBASE_TOKEN" --project "$FIREBASE_PROJECT"
   variables:
-    CI: "false"
+    CI: "false" # Tell react-scripts build to not treat warnings as errors
