@@ -20,6 +20,7 @@ function DrawableCanvas(props) {
     if (!props.drawingMode) return;
     setIsDrawing(true);
     startDraw(e, { drawingMode: props.drawingMode.mode });
+    props.setShowSaveConfirmation(false);
   }
   function onCanvasMouseUp(event) {
     if (!props.drawingMode) return;
@@ -94,7 +95,7 @@ function DrawableCanvas(props) {
         let width = event.clientX - canvasBox.left - rectBasePos.x;
         let height = event.clientY - canvasBox.top - rectBasePos.y;
         canvasCtx.rect(rectBasePos.x, rectBasePos.y, width, height);
-        canvasCtx.strokeStyle = "black";
+        canvasCtx.fillStyle = "black";
         canvasCtx.fill();
         break;
       }

@@ -4,19 +4,36 @@ import { PDFDocument } from "pdf-lib";
 
 import DocumentFrame from "./DocumentFrame";
 import DrawableCanvas from "./DrawableCanvas";
+import EditorViewControls from "./EditorViewControls";
 
 import DrawableCanvasContext from "../context/DrawableCanvasContext";
 
 import {
   setPage,
-  startDrawing,
   stopDrawing,
   setShowSaveConfirmation
 } from "../redux/actions";
 
 import editorViewStyles from "./EditorView.module.css";
 
-function EditorView(props) {
+const mapDispatchToProps = {
+  setPage,
+  stopDrawing,
+  setShowSaveConfirmation
+};
+
+function mapStateToProps(state) {
+  return {
+    showSaveConfirmation: state.editor.showSaveConfirmation,
+    drawnRectDimensions: state.editor.drawnRectDimensions,
+    canvasMouseupPosition: state.editor.canvasMouseupPosition
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(function EditorView(props) {
   const { dimensions, setDimensions, clearCanvas } = useContext(
     DrawableCanvasContext
   );
@@ -31,16 +48,6 @@ function EditorView(props) {
     props.stopDrawing();
     props.setShowSaveConfirmation(false);
     clearCanvas();
-  }
-
-  function onDrawRectangleClick() {
-    if (!props.drawing) {
-      props.startDrawing({
-        mode: "rectangle"
-      });
-    } else {
-      onCancelDrawingClick();
-    }
   }
 
   function getLoadedPageSize() {
@@ -63,18 +70,7 @@ function EditorView(props) {
 
   return (
     <div className={editorViewStyles["editor-view"] + " container"}>
-      <div className={editorViewStyles["editor-controls"]}>
-        <button
-          className={`button is-small ${
-            props.drawing && props.drawing.mode === "rectangle"
-              ? "is-primary"
-              : ""
-          }`}
-          onClick={onDrawRectangleClick}
-        >
-          Rectangle (fill)
-        </button>
-      </div>
+      <EditorViewControls onCancelDrawing={onCancelDrawingClick} />
 
       <div
         className="document-editor-container"
@@ -114,22 +110,4 @@ function EditorView(props) {
       </div>
     </div>
   );
-}
-
-const mapDispatchToProps = {
-  setPage,
-  startDrawing,
-  stopDrawing,
-  setShowSaveConfirmation
-};
-
-function mapStateToProps(state) {
-  return {
-    drawing: state.editor.drawing,
-    showSaveConfirmation: state.editor.showSaveConfirmation,
-    drawnRectDimensions: state.editor.drawnRectDimensions,
-    canvasMouseupPosition: state.editor.canvasMouseupPosition
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditorView);
+});
