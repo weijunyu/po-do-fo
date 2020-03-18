@@ -41,6 +41,7 @@ function DrawableCanvas(props) {
           x: event.clientX - canvasBox.left,
           y: event.clientY - canvasBox.top
         });
+        break;
       }
       default:
         break;
@@ -72,6 +73,7 @@ function DrawableCanvas(props) {
             height
           }
         });
+        break;
       }
       default:
         break;
@@ -94,6 +96,7 @@ function DrawableCanvas(props) {
         canvasCtx.rect(rectBasePos.x, rectBasePos.y, width, height);
         canvasCtx.strokeStyle = "black";
         canvasCtx.fill();
+        break;
       }
       default:
         break;
