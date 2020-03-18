@@ -30,16 +30,14 @@ function EditorViewControls(props) {
       props.onCancelDrawing();
     }
   }
-  function onChooseColourClick() {
-    setShowColourPicker(!showColourPicker);
-  }
   function onColourSet(colour, event) {
-    console.log(colour);
-    console.log(event);
   }
   return (
     <div className={EditorViewControlsStyles["editor-controls"]}>
-      <button onClick={onChooseColourClick} className="button is-small">
+      <button
+        onClick={() => setShowColourPicker(!showColourPicker)}
+        className="button is-small"
+      >
         Choose Colour
       </button>
       {showColourPicker ? (
