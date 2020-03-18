@@ -43,16 +43,6 @@ function EditorView(props) {
     }
   }
 
-  function onDrawPenClick() {
-    if (!props.drawing) {
-      props.startDrawing({
-        mode: "pen"
-      });
-    } else {
-      onCancelDrawingClick();
-    }
-  }
-
   function getLoadedPageSize() {
     let canvas = document.querySelector(`canvas.react-pdf__Page__canvas`);
     setDimensions({
@@ -83,14 +73,6 @@ function EditorView(props) {
           onClick={onDrawRectangleClick}
         >
           Rectangle (fill)
-        </button>
-        <button
-          className={`button is-small ${
-            props.drawing && props.drawing.mode === "pen" ? "is-primary" : ""
-          }`}
-          onClick={onDrawPenClick}
-        >
-          Pen
         </button>
       </div>
 

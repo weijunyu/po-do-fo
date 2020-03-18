@@ -19,55 +19,84 @@ function DrawableCanvas(props) {
   function onCanvasMouseDown(e) {
     if (!props.drawingMode) return;
     setIsDrawing(true);
-    setRectBasePos({
-      x: e.clientX - canvasBox.left,
-      y: e.clientY - canvasBox.top
-    });
+    startDraw(e, { drawingMode: props.drawingMode.mode });
   }
   function onCanvasMouseUp(event) {
     if (!props.drawingMode) return;
     setIsDrawing(false);
+    endDraw(event, { drawingMode: props.drawingMode.mode });
+    props.setShowSaveConfirmation(true);
+  }
+  function onCanvasMouseMove(e) {
+    if (!props.drawingMode) return;
+    if (isDrawing) {
+      draw(e, { drawingMode: props.drawingMode.mode });
+    }
+  }
 
+  function startDraw(event, options) {
+    switch (options.drawingMode) {
+      case "rectangle": {
+        setRectBasePos({
+          x: event.clientX - canvasBox.left,
+          y: event.clientY - canvasBox.top
+        });
+      }
+      default:
+        break;
+    }
+  }
+
+  function endDraw(event, options) {
     let canvasCtx = canvasRef.current.getContext("2d");
     canvasCtx.beginPath();
 
-    // Save rect properties in state; used for drawing on PDF
-    let width = event.clientX - canvasBox.left - rectBasePos.x;
-    let height = event.clientY - canvasBox.top - rectBasePos.y;
-    // Transform Y axis direction
-    height = height * -1;
-    let transformedBaseY = canvasBox.bottom - canvasBox.top - rectBasePos.y;
+    switch (options.drawingMode) {
+      case "rectangle": {
+        // Save rect properties in state; used for drawing on PDF
+        let width = event.clientX - canvasBox.left - rectBasePos.x;
+        let height = event.clientY - canvasBox.top - rectBasePos.y;
+        // Transform Y axis direction
+        height = height * -1;
+        let transformedBaseY = canvasBox.bottom - canvasBox.top - rectBasePos.y;
 
-    props.saveCanvasDrawingDetails({
-      canvasMouseupPosition: {
-        left: event.clientX - canvasBox.left,
-        top: event.clientY - canvasBox.top
-      },
-      drawnRectDimensions: {
-        x: rectBasePos.x,
-        y: transformedBaseY,
-        width,
-        height
+        props.saveCanvasDrawingDetails({
+          canvasMouseupPosition: {
+            left: event.clientX - canvasBox.left,
+            top: event.clientY - canvasBox.top
+          },
+          drawnRectDimensions: {
+            x: rectBasePos.x,
+            y: transformedBaseY,
+            width,
+            height
+          }
+        });
       }
-    });
-    props.setShowSaveConfirmation(true);
+      default:
+        break;
+    }
   }
-  function draw(e) {
-    if (!props.drawingMode) return;
+
+  function draw(event, options) {
     let canvasCtx = canvasRef.current.getContext("2d");
-    if (isDrawing) {
-      canvasCtx.clearRect(
-        0,
-        0,
-        canvasRef.current.width,
-        canvasRef.current.height
-      );
-      canvasCtx.beginPath();
-      let width = e.clientX - canvasBox.left - rectBasePos.x;
-      let height = e.clientY - canvasBox.top - rectBasePos.y;
-      canvasCtx.rect(rectBasePos.x, rectBasePos.y, width, height);
-      canvasCtx.strokeStyle = "black";
-      canvasCtx.fill();
+    switch (options.drawingMode) {
+      case "rectangle": {
+        canvasCtx.clearRect(
+          0,
+          0,
+          canvasRef.current.width,
+          canvasRef.current.height
+        );
+        canvasCtx.beginPath();
+        let width = event.clientX - canvasBox.left - rectBasePos.x;
+        let height = event.clientY - canvasBox.top - rectBasePos.y;
+        canvasCtx.rect(rectBasePos.x, rectBasePos.y, width, height);
+        canvasCtx.strokeStyle = "black";
+        canvasCtx.fill();
+      }
+      default:
+        break;
     }
   }
 
@@ -83,7 +112,7 @@ function DrawableCanvas(props) {
       }}
       onMouseDown={onCanvasMouseDown}
       onMouseUp={onCanvasMouseUp}
-      onMouseMove={draw}
+      onMouseMove={onCanvasMouseMove}
       height={props.dimensions.height}
       width={props.dimensions.width}
     ></canvas>
