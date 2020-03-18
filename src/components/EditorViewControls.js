@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
-import { SketchPicker } from "react-color";
+import { ChromePicker } from "react-color";
 
-import { startDrawing } from "../redux/actions";
+import { startDrawing, setFillColour } from "../redux/actions";
 
 import EditorViewControlsStyles from "./EditorViewControls.module.css";
 
 const mapDispatchToProps = {
-  startDrawing
+  startDrawing,
+  setFillColour
 };
 
 function mapStateToProps(state) {
   return {
-    drawing: state.editor.drawing
+    drawing: state.editor.drawing,
+    fillColour: state.editor.fillColour
   };
 }
 
@@ -30,7 +32,8 @@ function EditorViewControls(props) {
       props.onCancelDrawing();
     }
   }
-  function onColourSet(colour, event) {
+  function onColourSet(colour) {
+    props.setFillColour(colour.rgb);
   }
   return (
     <div className={EditorViewControlsStyles["editor-controls"]}>
@@ -38,7 +41,7 @@ function EditorViewControls(props) {
         onClick={() => setShowColourPicker(!showColourPicker)}
         className="button is-small"
       >
-        Choose Colour
+        Choose Fill Colour
       </button>
       {showColourPicker ? (
         <div
@@ -58,7 +61,10 @@ function EditorViewControls(props) {
             }}
             onClick={() => setShowColourPicker(false)}
           ></div>
-          <SketchPicker color="#fff" onChangeComplete={onColourSet} />
+          <ChromePicker
+            color={props.fillColour}
+            onChangeComplete={onColourSet}
+          />
         </div>
       ) : null}
 

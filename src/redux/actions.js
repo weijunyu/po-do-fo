@@ -10,7 +10,8 @@ import {
   STOP_DRAWING,
   SET_SHOW_SAVE_CONFIRMATION,
   SAVE_DRAW_RECT,
-  SAVE_CANVAS_MOUSEUP_POSITION
+  SAVE_CANVAS_MOUSEUP_POSITION,
+  SET_FILL_COLOUR
 } from "./actionTypes";
 export const addPages = pages => ({
   type: ADD_PAGES,
@@ -65,7 +66,7 @@ export const startDrawing = ({ mode }) => {
     payload: {
       mode
     }
-  }
+  };
 };
 export const stopDrawing = () => ({ type: STOP_DRAWING });
 export const saveCanvasDrawingDetails = ({
@@ -89,5 +90,11 @@ export const saveCanvasMouseupPosition = position => {
   return {
     type: SAVE_CANVAS_MOUSEUP_POSITION,
     payload: position
+  };
+};
+export const setFillColour = colour => {
+  return {
+    type: SET_FILL_COLOUR,
+    payload: colour
   };
 };

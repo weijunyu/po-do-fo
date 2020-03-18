@@ -30,10 +30,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(function EditorView(props) {
+export default connect(mapStateToProps, mapDispatchToProps)(EditorView);
+
+function EditorView(props) {
   const { dimensions, setDimensions, clearCanvas } = useContext(
     DrawableCanvasContext
   );
@@ -110,4 +109,4 @@ export default connect(
       </div>
     </div>
   );
-});
+}

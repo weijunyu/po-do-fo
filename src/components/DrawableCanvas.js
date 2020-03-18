@@ -9,6 +9,19 @@ import {
 
 import DrawableCanvasContext from "../context/DrawableCanvasContext";
 
+const mapDispatchToProps = {
+  saveCanvasDrawingDetails,
+  setShowSaveConfirmation
+};
+
+function mapStateToProps(state) {
+  return {
+    drawingMode: state.editor.drawing // Whenever button clicked, enter drawing state
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DrawableCanvas);
+
 function DrawableCanvas(props) {
   const drawableCanvasContext = useContext(DrawableCanvasContext);
   const canvasBox = drawableCanvasContext.bbox;
@@ -137,16 +150,3 @@ DrawableCanvas.propTypes = {
     width: PropTypes.number
   })
 };
-
-const mapDispatchToProps = {
-  saveCanvasDrawingDetails,
-  setShowSaveConfirmation
-};
-
-function mapStateToProps(state) {
-  return {
-    drawingMode: state.editor.drawing // Whenever button clicked, enter drawing state
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(DrawableCanvas);
