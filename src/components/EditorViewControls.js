@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { ChromePicker } from "react-color";
 
@@ -44,28 +44,11 @@ function EditorViewControls(props) {
         Choose Fill Colour
       </button>
       {showColourPicker ? (
-        <div
-          style={{
-            position: "absolute",
-            top: "2rem",
-            zIndex: 1
-          }}
-        >
-          <div
-            style={{
-              position: "fixed",
-              top: "0px",
-              right: "0px",
-              bottom: "0px",
-              left: "0px"
-            }}
-            onClick={() => setShowColourPicker(false)}
-          ></div>
-          <ChromePicker
-            color={props.fillColour}
-            onChangeComplete={onColourSet}
-          />
-        </div>
+        <ColorPickerContainer
+          fillColour={props.fillColour}
+          onColourSet={onColourSet}
+          onHide={() => setShowColourPicker(false)}
+        />
       ) : null}
 
       <button
@@ -78,6 +61,36 @@ function EditorViewControls(props) {
       >
         Rectangle (fill)
       </button>
+    </div>
+  );
+}
+
+function ColorPickerContainer(props) {
+  const containerRef = React.createRef();
+  useEffect(() => {
+    function hideMyself(e) {
+      if (!containerRef.current.contains(e.target)) {
+        props.onHide();
+      }
+    }
+    document.addEventListener("click", hideMyself);
+    return () => {
+      document.removeEventListener("click", hideMyself);
+    };
+  }, [containerRef, props]);
+  return (
+    <div
+      style={{
+        position: "absolute",
+        top: "2rem",
+        zIndex: 1
+      }}
+      ref={containerRef}
+    >
+      <ChromePicker
+        color={props.fillColour}
+        onChangeComplete={props.onColourSet}
+      />
     </div>
   );
 }
