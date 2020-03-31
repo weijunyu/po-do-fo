@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { ChromePicker } from "react-color";
+import { colorDataToCssAttribute } from "../lib";
 
 import { startDrawing, setFillColour } from "../redux/actions";
 
@@ -42,6 +43,13 @@ function EditorViewControls(props) {
         className="button is-small"
       >
         Choose Fill Colour
+        <i
+          className="fas fa-square"
+          style={{
+            color: colorDataToCssAttribute(props.fillColour),
+            paddingLeft: ".3rem"
+          }}
+        ></i>
       </button>
       {showColourPicker ? (
         <ColorPickerContainer
