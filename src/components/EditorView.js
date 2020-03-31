@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { connect } from "react-redux";
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, rgb } from "pdf-lib";
 
 import DocumentFrame from "./DocumentFrame";
 import DrawableCanvas from "./DrawableCanvas";
@@ -26,7 +26,8 @@ function mapStateToProps(state) {
   return {
     showSaveConfirmation: state.editor.showSaveConfirmation,
     drawnRectDimensions: state.editor.drawnRectDimensions,
-    canvasMouseupPosition: state.editor.canvasMouseupPosition
+    canvasMouseupPosition: state.editor.canvasMouseupPosition,
+    fillColour: state.editor.fillColour
   };
 }
 
@@ -62,7 +63,14 @@ function EditorView(props) {
     let pagePdfDoc = await PDFDocument.load(props.page.bytes);
     let pages = pagePdfDoc.getPages();
     let pdfPage = pages[0];
-    pdfPage.drawRectangle(props.drawnRectDimensions);
+    pdfPage.drawRectangle({
+      ...props.drawnRectDimensions,
+      color: rgb(
+        props.fillColour.r / 255,
+        props.fillColour.g / 255,
+        props.fillColour.b / 255
+      )
+    });
     let pdfBytes = await pagePdfDoc.save();
     props.setPage(props.pageIndex, pdfBytes);
   }

@@ -8,6 +8,7 @@ import {
 } from "../redux/actions";
 
 import DrawableCanvasContext from "../context/DrawableCanvasContext";
+import { colorDataToCssAttribute } from "../lib";
 
 const mapDispatchToProps = {
   saveCanvasDrawingDetails,
@@ -16,6 +17,7 @@ const mapDispatchToProps = {
 
 function mapStateToProps(state) {
   return {
+    fillColour: state.editor.fillColour,
     drawingMode: state.editor.drawing // Whenever button clicked, enter drawing state
   };
 }
@@ -108,7 +110,7 @@ function DrawableCanvas(props) {
         let width = event.clientX - canvasBox.left - rectBasePos.x;
         let height = event.clientY - canvasBox.top - rectBasePos.y;
         canvasCtx.rect(rectBasePos.x, rectBasePos.y, width, height);
-        canvasCtx.fillStyle = "black";
+        canvasCtx.fillStyle = colorDataToCssAttribute(props.fillColour);
         canvasCtx.fill();
         break;
       }

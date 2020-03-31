@@ -96,6 +96,7 @@ function ColorPickerContainer(props) {
       ref={containerRef}
     >
       <ChromePicker
+        disableAlpha={true}
         color={props.fillColour}
         onChangeComplete={props.onColourSet}
       />
