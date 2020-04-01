@@ -7,25 +7,10 @@ import { startDrawing, setFillColour } from "../redux/actions";
 
 import EditorViewControlsStyles from "./EditorViewControls.module.css";
 
-const mapDispatchToProps = {
-  startDrawing,
-  setFillColour
-};
-
-function mapStateToProps(state) {
-  return {
-    drawing: state.editor.drawing,
-    fillColour: state.editor.fillColour
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditorViewControls);
-
-function EditorViewControls(props) {
-  const [showColourPicker, setShowColourPicker] = useState(false);
-
+export default connect(state => ({ drawing: state.editor.drawing }), {
+  startDrawing
+})(function EditorViewControls(props) {
   function onDrawRectangleClick() {
-    setShowColourPicker(false);
     if (!props.drawing) {
       props.startDrawing({
         mode: "rectangle"
@@ -34,14 +19,39 @@ function EditorViewControls(props) {
       props.onCancelDrawing();
     }
   }
+  return (
+    <div className={EditorViewControlsStyles["editor-controls"]}>
+      <ColorPickerControls />
+
+      <button
+        className={`button ${
+          props.drawing && props.drawing.mode === "rectangle"
+            ? "is-light"
+            : "is-white"
+        }`}
+        onClick={onDrawRectangleClick}
+      >
+        Rectangle (fill)
+      </button>
+    </div>
+  );
+});
+
+const ColorPickerControls = connect(
+  state => ({ fillColour: state.editor.fillColour }),
+  { setFillColour }
+)(props => {
+  const showPickerButtonRef = React.createRef();
+  const [showColourPicker, setShowColourPicker] = useState(false);
   function onColourSet(colour) {
     props.setFillColour(colour.rgb);
   }
   return (
-    <div className={EditorViewControlsStyles["editor-controls"]}>
+    <>
       <button
         onClick={() => setShowColourPicker(!showColourPicker)}
-        className="button"
+        className={`button ${showColourPicker ? "is-light" : "is-white"}`}
+        ref={showPickerButtonRef}
       >
         Choose Fill Colour
         <i
@@ -58,41 +68,36 @@ function EditorViewControls(props) {
           fillColour={props.fillColour}
           onColourSet={onColourSet}
           onHide={() => setShowColourPicker(false)}
+          showPickerButtonRef={showPickerButtonRef}
         />
       ) : null}
-
-      <button
-        className={`button ${
-          props.drawing && props.drawing.mode === "rectangle"
-            ? "is-primary"
-            : ""
-        }`}
-        onClick={onDrawRectangleClick}
-      >
-        Rectangle (fill)
-      </button>
-    </div>
+    </>
   );
-}
+});
 
 function ColorPickerContainer(props) {
   const containerRef = React.createRef();
   useEffect(() => {
     function hideMyself(e) {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target) &&
+        props.showPickerButtonRef.current &&
+          !props.showPickerButtonRef.current.contains(e.target)
+      ) {
         props.onHide();
       }
     }
-    document.addEventListener("click", hideMyself);
+    document.addEventListener("mousedown", hideMyself);
     return () => {
-      document.removeEventListener("click", hideMyself);
+      document.removeEventListener("mousedown", hideMyself);
     };
   }, [containerRef, props]);
   return (
     <div
       style={{
         position: "absolute",
-        top: "2rem",
+        top: "2.5rem",
         zIndex: 1
       }}
       ref={containerRef}

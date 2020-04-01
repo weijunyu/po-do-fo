@@ -35,17 +35,24 @@ function DrawableCanvas(props) {
     if (!props.drawingMode) return;
     setIsDrawing(true);
     startDraw(e, { drawingMode: props.drawingMode.mode });
-    props.setShowSaveConfirmation(false);
   }
   function onCanvasMouseUp(event) {
     if (!props.drawingMode) return;
+
     setIsDrawing(false);
+
+    // If just clicking on one spot, ignore this mouseup
+    let width = event.clientX - canvasBox.left - rectBasePos.x;
+    let height = event.clientY - canvasBox.top - rectBasePos.y;
+    if (width === 0 && height === 0) return;
+
     endDraw(event, { drawingMode: props.drawingMode.mode });
     props.setShowSaveConfirmation(true);
   }
   function onCanvasMouseMove(e) {
     if (!props.drawingMode) return;
     if (isDrawing) {
+      props.setShowSaveConfirmation(false);
       draw(e, { drawingMode: props.drawingMode.mode });
     }
   }

@@ -39,7 +39,6 @@ function EditorView(props) {
   );
 
   function onSaveDrawingClick() {
-    props.stopDrawing();
     props.setShowSaveConfirmation(false);
     saveDrawnRectToPdf();
   }
