@@ -44,8 +44,10 @@ function EditorView(props) {
     saveDrawnRectToPdf();
   }
 
-  function onCancelDrawingClick() {
-    props.stopDrawing();
+  function onCancelDrawingClick(options) {
+    if (options.stopDrawing) {
+      props.stopDrawing();
+    }
     props.setShowSaveConfirmation(false);
     clearCanvas();
   }
@@ -77,7 +79,9 @@ function EditorView(props) {
 
   return (
     <div className={editorViewStyles["editor-view"] + " container"}>
-      <EditorViewControls onCancelDrawing={onCancelDrawingClick} />
+      <EditorViewControls
+        onCancelDrawing={() => onCancelDrawingClick({ stopDrawing: true })}
+      />
 
       <div
         className="document-editor-container"
@@ -96,14 +100,11 @@ function EditorView(props) {
               top: props.canvasMouseupPosition.top
             }}
           >
-            <button
-              className="button is-primary is-small"
-              onClick={onSaveDrawingClick}
-            >
-              Save
+            <button className="button is-small" onClick={onSaveDrawingClick}>
+              <i className="fas fa-check"></i>
             </button>
             <button className="button is-small" onClick={onCancelDrawingClick}>
-              Cancel
+              <i className="fas fa-times"></i>
             </button>
           </div>
         ) : null}

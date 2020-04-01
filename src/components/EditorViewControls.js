@@ -25,6 +25,7 @@ function EditorViewControls(props) {
   const [showColourPicker, setShowColourPicker] = useState(false);
 
   function onDrawRectangleClick() {
+    setShowColourPicker(false);
     if (!props.drawing) {
       props.startDrawing({
         mode: "rectangle"
@@ -40,14 +41,15 @@ function EditorViewControls(props) {
     <div className={EditorViewControlsStyles["editor-controls"]}>
       <button
         onClick={() => setShowColourPicker(!showColourPicker)}
-        className="button is-small"
+        className="button"
       >
         Choose Fill Colour
         <i
           className="fas fa-square"
           style={{
             color: colorDataToCssAttribute(props.fillColour),
-            paddingLeft: ".3rem"
+            marginLeft: ".3rem",
+            textShadow: "1px 1px 2px black"
           }}
         ></i>
       </button>
@@ -60,7 +62,7 @@ function EditorViewControls(props) {
       ) : null}
 
       <button
-        className={`button is-small ${
+        className={`button ${
           props.drawing && props.drawing.mode === "rectangle"
             ? "is-primary"
             : ""
@@ -77,7 +79,7 @@ function ColorPickerContainer(props) {
   const containerRef = React.createRef();
   useEffect(() => {
     function hideMyself(e) {
-      if (!containerRef.current.contains(e.target)) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
         props.onHide();
       }
     }
