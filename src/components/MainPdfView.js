@@ -60,7 +60,7 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   movePageUp,
   movePageDown,
-  removePage
+  removePage,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MainPdfView);

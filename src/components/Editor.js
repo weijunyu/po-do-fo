@@ -15,6 +15,6 @@ function Editor(props) {
 
 export default connect(function mapStateToProps(state) {
   return {
-    pages: state.pages
+    pages: state.pages,
   };
 })(Editor);

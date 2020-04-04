@@ -7,13 +7,13 @@ import { startDrawing, setFillColour } from "../redux/actions";
 
 import EditorViewControlsStyles from "./EditorViewControls.module.css";
 
-export default connect(state => ({ drawing: state.editor.drawing }), {
-  startDrawing
+export default connect((state) => ({ drawing: state.editor.drawing }), {
+  startDrawing,
 })(function EditorViewControls(props) {
   function onDrawRectangleClick() {
     if (!props.drawing) {
       props.startDrawing({
-        mode: "rectangle"
+        mode: "rectangle",
       });
     } else {
       props.onCancelDrawing();
@@ -38,9 +38,9 @@ export default connect(state => ({ drawing: state.editor.drawing }), {
 });
 
 const ColorPickerControls = connect(
-  state => ({ fillColour: state.editor.fillColour }),
+  (state) => ({ fillColour: state.editor.fillColour }),
   { setFillColour }
-)(props => {
+)((props) => {
   const showPickerButtonRef = React.createRef();
   const [showColourPicker, setShowColourPicker] = useState(false);
   function onColourSet(colour) {
@@ -59,7 +59,7 @@ const ColorPickerControls = connect(
           style={{
             color: colorDataToCssAttribute(props.fillColour),
             marginLeft: ".3rem",
-            textShadow: "1px 1px 2px black"
+            textShadow: "1px 1px 2px black",
           }}
         ></i>
       </button>
@@ -83,7 +83,7 @@ function ColorPickerContainer(props) {
         containerRef.current &&
         !containerRef.current.contains(e.target) &&
         props.showPickerButtonRef.current &&
-          !props.showPickerButtonRef.current.contains(e.target)
+        !props.showPickerButtonRef.current.contains(e.target)
       ) {
         props.onHide();
       }
@@ -98,7 +98,7 @@ function ColorPickerContainer(props) {
       style={{
         position: "absolute",
         top: "2.5rem",
-        zIndex: 1
+        zIndex: 1,
       }}
       ref={containerRef}
     >

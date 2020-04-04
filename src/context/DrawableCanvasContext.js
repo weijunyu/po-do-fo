@@ -17,7 +17,7 @@ export function DrawableCanvasContextProvider({ children }) {
     ref,
     dimensions,
     setDimensions,
-    clearCanvas
+    clearCanvas,
   };
   return <context.Provider value={value}>{children}</context.Provider>;
 }

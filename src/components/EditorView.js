@@ -11,7 +11,7 @@ import DrawableCanvasContext from "../context/DrawableCanvasContext";
 import {
   setPage,
   stopDrawing,
-  setShowSaveConfirmation
+  setShowSaveConfirmation,
 } from "../redux/actions";
 
 import editorViewStyles from "./EditorView.module.css";
@@ -19,7 +19,7 @@ import editorViewStyles from "./EditorView.module.css";
 const mapDispatchToProps = {
   setPage,
   stopDrawing,
-  setShowSaveConfirmation
+  setShowSaveConfirmation,
 };
 
 function mapStateToProps(state) {
@@ -27,7 +27,7 @@ function mapStateToProps(state) {
     showSaveConfirmation: state.editor.showSaveConfirmation,
     drawnRectDimensions: state.editor.drawnRectDimensions,
     canvasMouseupPosition: state.editor.canvasMouseupPosition,
-    fillColour: state.editor.fillColour
+    fillColour: state.editor.fillColour,
   };
 }
 
@@ -55,7 +55,7 @@ function EditorView(props) {
     let canvas = document.querySelector(`canvas.react-pdf__Page__canvas`);
     setDimensions({
       width: canvas.offsetWidth,
-      height: canvas.offsetHeight
+      height: canvas.offsetHeight,
     });
   }
 
@@ -70,7 +70,7 @@ function EditorView(props) {
         props.fillColour.r / 255,
         props.fillColour.g / 255,
         props.fillColour.b / 255
-      )
+      ),
     });
     let pdfBytes = await pagePdfDoc.save();
     props.setPage(props.pageIndex, pdfBytes);
@@ -88,15 +88,22 @@ function EditorView(props) {
           position: "relative",
           width: dimensions.width,
           height: dimensions.height,
-          margin: "0 auto"
+          margin: "0 auto",
         }}
       >
+        <DocumentFrame
+          pageBytes={props.page.bytes}
+          className={`page-${props.pageIndex}`}
+          onRenderSuccess={getLoadedPageSize}
+          style={{ position: "absolute", top: 0, left: 0 }}
+        />
+        <DrawableCanvas dimensions={dimensions} />
         {props.showSaveConfirmation ? (
           <div
             className={editorViewStyles["save-drawing-confirmation"]}
             style={{
               left: props.canvasMouseupPosition.left,
-              top: props.canvasMouseupPosition.top
+              top: props.canvasMouseupPosition.top,
             }}
           >
             <button className="button is-small" onClick={onSaveDrawingClick}>
@@ -107,13 +114,6 @@ function EditorView(props) {
             </button>
           </div>
         ) : null}
-        <DocumentFrame
-          pageBytes={props.page.bytes}
-          className={`page-${props.pageIndex}`}
-          onRenderSuccess={getLoadedPageSize}
-          style={{ position: "absolute", top: 0, left: 0 }}
-        />
-        <DrawableCanvas dimensions={dimensions} />
       </div>
     </div>
   );

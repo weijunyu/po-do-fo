@@ -83,7 +83,7 @@ function CanvasFun() {
     page.drawImage(pdfImage);
     const pdfBytes = await pdfDoc.save();
     const file = new File([pdfBytes], "export.pdf", {
-      type: "application/pdf"
+      type: "application/pdf",
     });
     saveAs(file);
   }

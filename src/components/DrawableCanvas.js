@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import {
   saveCanvasDrawingDetails,
-  setShowSaveConfirmation
+  setShowSaveConfirmation,
 } from "../redux/actions";
 
 import DrawableCanvasContext from "../context/DrawableCanvasContext";
@@ -12,13 +12,13 @@ import { colorDataToCssAttribute } from "../lib";
 
 const mapDispatchToProps = {
   saveCanvasDrawingDetails,
-  setShowSaveConfirmation
+  setShowSaveConfirmation,
 };
 
 function mapStateToProps(state) {
   return {
     fillColour: state.editor.fillColour,
-    drawingMode: state.editor.drawing // Whenever button clicked, enter drawing state
+    drawingMode: state.editor.drawing, // Whenever button clicked, enter drawing state
   };
 }
 
@@ -62,7 +62,7 @@ function DrawableCanvas(props) {
       case "rectangle": {
         setRectBasePos({
           x: event.clientX - canvasBox.left,
-          y: event.clientY - canvasBox.top
+          y: event.clientY - canvasBox.top,
         });
         break;
       }
@@ -87,14 +87,14 @@ function DrawableCanvas(props) {
         props.saveCanvasDrawingDetails({
           canvasMouseupPosition: {
             left: event.clientX - canvasBox.left,
-            top: event.clientY - canvasBox.top
+            top: event.clientY - canvasBox.top,
           },
           drawnRectDimensions: {
             x: rectBasePos.x,
             y: transformedBaseY,
             width,
-            height
-          }
+            height,
+          },
         });
         break;
       }
@@ -134,7 +134,7 @@ function DrawableCanvas(props) {
         position: "absolute",
         top: 0,
         left: 0,
-        cursor: props.drawingMode ? "crosshair" : "auto"
+        cursor: props.drawingMode ? "crosshair" : "auto",
       }}
       onMouseDown={onCanvasMouseDown}
       onMouseUp={onCanvasMouseUp}
@@ -149,13 +149,13 @@ DrawableCanvas.propTypes = {
   drawingMode: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.shape({
-      mode: PropTypes.string
-    })
+      mode: PropTypes.string,
+    }),
   ]), // "rectangle", "pen" buttons set drawingMode.
   saveCanvasDrawingDetails: PropTypes.func.isRequired, // Signal that draw is done
 
   dimensions: PropTypes.shape({
     height: PropTypes.number,
-    width: PropTypes.number
-  })
+    width: PropTypes.number,
+  }),
 };

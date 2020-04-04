@@ -32,13 +32,13 @@ function PdfLoader(props) {
   const { loadPagesFromFile } = props;
   useEffect(() => {
     Uppy({
-      onBeforeFileAdded: currentFile => {
+      onBeforeFileAdded: (currentFile) => {
         // Use this to load files into state
         // Uppy blocks re-uploads by default
         loadPagesFromFile(currentFile);
-      }
+      },
     }).use(DragDrop, {
-      target: ".pdf-loader"
+      target: ".pdf-loader",
     });
   }, [loadPagesFromFile]);
 
@@ -68,7 +68,7 @@ function PdfLoader(props) {
         x: 0,
         y: 0,
         width: pdfImg.width,
-        height: pdfImg.height
+        height: pdfImg.height,
       });
     }
     // let user download pdf doc
@@ -85,7 +85,10 @@ function PdfLoader(props) {
           <button className="button is-primary compressed" onClick={exportPdf}>
             Export PDF
           </button>
-          <button className="button is-primary compressed" onClick={exportPdfInImages}>
+          <button
+            className="button is-primary compressed"
+            onClick={exportPdfInImages}
+          >
             Export PDF (Image Mode)
           </button>
         </>
@@ -99,7 +102,7 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  loadPagesFromFile
+  loadPagesFromFile,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

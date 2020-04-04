@@ -11,21 +11,21 @@ import {
   SET_SHOW_SAVE_CONFIRMATION,
   SAVE_DRAW_RECT,
   SAVE_CANVAS_MOUSEUP_POSITION,
-  SET_FILL_COLOUR
+  SET_FILL_COLOUR,
 } from "./actionTypes";
-export const addPages = pages => ({
+export const addPages = (pages) => ({
   type: ADD_PAGES,
-  payload: pages
+  payload: pages,
 });
 export const setPage = (pageIndex, pageBytes) => ({
   type: SET_PAGE,
   payload: {
     pageIndex,
-    pageBytes
-  }
+    pageBytes,
+  },
 });
-export const loadPagesFromFile = file => {
-  return dispatch => {
+export const loadPagesFromFile = (file) => {
+  return (dispatch) => {
     let fileRef = file.data;
     let reader = new FileReader();
     reader.onload = async () => {
@@ -39,7 +39,7 @@ export const loadPagesFromFile = file => {
         let newDocBytes = await newDoc.save();
         newDocs.push({
           id: uuidv4(),
-          bytes: newDocBytes
+          bytes: newDocBytes,
         });
       }
       dispatch(addPages(newDocs));
@@ -47,54 +47,54 @@ export const loadPagesFromFile = file => {
     reader.readAsArrayBuffer(fileRef);
   };
 };
-export const movePageUp = pageIndex => ({
+export const movePageUp = (pageIndex) => ({
   type: MOVE_PAGE_UP,
-  payload: pageIndex
+  payload: pageIndex,
 });
-export const movePageDown = pageIndex => ({
+export const movePageDown = (pageIndex) => ({
   type: MOVE_PAGE_DOWN,
-  payload: pageIndex
+  payload: pageIndex,
 });
-export const removePage = pageIndex => ({
+export const removePage = (pageIndex) => ({
   type: REMOVE_PAGE,
-  payload: pageIndex
+  payload: pageIndex,
 });
 
 export const startDrawing = ({ mode }) => {
   return {
     type: START_DRAWING,
     payload: {
-      mode
-    }
+      mode,
+    },
   };
 };
 export const stopDrawing = () => ({ type: STOP_DRAWING });
 export const saveCanvasDrawingDetails = ({
   canvasMouseupPosition = {},
-  drawnRectDimensions = {}
+  drawnRectDimensions = {},
 }) => {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(saveCanvasMouseupPosition(canvasMouseupPosition));
     dispatch(saveDrawRectDimensions(drawnRectDimensions));
   };
 };
-export const setShowSaveConfirmation = show => ({
+export const setShowSaveConfirmation = (show) => ({
   type: SET_SHOW_SAVE_CONFIRMATION,
-  payload: show
+  payload: show,
 });
-export const saveDrawRectDimensions = rect => ({
+export const saveDrawRectDimensions = (rect) => ({
   type: SAVE_DRAW_RECT,
-  payload: rect
+  payload: rect,
 });
-export const saveCanvasMouseupPosition = position => {
+export const saveCanvasMouseupPosition = (position) => {
   return {
     type: SAVE_CANVAS_MOUSEUP_POSITION,
-    payload: position
+    payload: position,
   };
 };
-export const setFillColour = colour => {
+export const setFillColour = (colour) => {
   return {
     type: SET_FILL_COLOUR,
-    payload: colour
+    payload: colour,
   };
 };
