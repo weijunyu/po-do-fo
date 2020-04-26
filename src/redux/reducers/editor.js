@@ -4,7 +4,7 @@ import {
   SET_SHOW_SAVE_CONFIRMATION,
   SAVE_DRAW_RECT,
   SAVE_CANVAS_MOUSEUP_POSITION,
-  SET_FILL_COLOUR
+  SET_FILL_COLOUR,
 } from "../actionTypes";
 
 const initialState = {
@@ -12,27 +12,27 @@ const initialState = {
   showSaveConfirmation: false,
   drawnRectDimensions: {},
   canvasMouseupPosition: {},
-  fillColour: { r: 0, g: 0, b: 0, a: 1 }
+  fillColour: { r: 0, g: 0, b: 0, a: 1 },
 };
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case START_DRAWING: {
       return {
         ...state,
-        drawing: action.payload
+        drawing: action.payload,
       };
     }
     case STOP_DRAWING: {
       return {
         ...state,
-        drawing: false
+        drawing: false,
       };
     }
     case SET_SHOW_SAVE_CONFIRMATION: {
       return {
         ...state,
-        showSaveConfirmation: action.payload
+        showSaveConfirmation: action.payload,
       };
     }
     case SAVE_DRAW_RECT: {
@@ -41,13 +41,13 @@ export default function(state = initialState, action) {
     case SAVE_CANVAS_MOUSEUP_POSITION: {
       return {
         ...state,
-        canvasMouseupPosition: action.payload
+        canvasMouseupPosition: action.payload,
       };
     }
     case SET_FILL_COLOUR: {
       return {
         ...state,
-        fillColour: action.payload
+        fillColour: action.payload,
       };
     }
     default: {

@@ -6,7 +6,7 @@ import {
   MOVE_PAGE_UP,
   MOVE_PAGE_DOWN,
   REMOVE_PAGE,
-  SET_PAGE
+  SET_PAGE,
 } from "../actionTypes";
 const initialState = [{ id: uuidv4(), bytes: seedDoc }];
 
@@ -16,7 +16,7 @@ function swapArrayIndices(arr, first, second) {
   arr[second] = temp;
 }
 
-export default function(state = initialState, action) {
+export default function (state = initialState, action) {
   switch (action.type) {
     case ADD_PAGE: {
       const page = action.payload;
@@ -32,7 +32,7 @@ export default function(state = initialState, action) {
         if (index === pageIndex) {
           return {
             id: page.id || uuidv4(),
-            bytes: pageBytes
+            bytes: pageBytes,
           };
         }
         return page;

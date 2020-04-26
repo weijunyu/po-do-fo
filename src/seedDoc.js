@@ -1,4 +1,4 @@
-let  raw = {
+let raw = {
   "0": 37,
   "1": 80,
   "2": 68,
@@ -13280,6 +13280,6 @@ let  raw = {
   "13278": 37,
   "13279": 69,
   "13280": 79,
-  "13281": 70
+  "13281": 70,
 };
-export default Uint8Array.from(Object.keys(raw).map(index => raw[index]));
+export default Uint8Array.from(Object.keys(raw).map((index) => raw[index]));
