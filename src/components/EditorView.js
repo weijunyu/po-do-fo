@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { connect } from "react-redux";
 import { PDFDocument, rgb } from "pdf-lib";
 
@@ -43,7 +43,7 @@ function EditorView(props) {
     saveDrawnRectToPdf();
   }
 
-  function onCancelDrawingClick(options) {
+  function onCancelDrawingClick(options = {}) {
     if (options.stopDrawing) {
       props.stopDrawing();
     }
@@ -99,22 +99,58 @@ function EditorView(props) {
         />
         <DrawableCanvas dimensions={dimensions} />
         {props.showSaveConfirmation ? (
-          <div
-            className={editorViewStyles["save-drawing-confirmation"]}
-            style={{
+          <DrawingConfirmation
+            position={{
               left: props.canvasMouseupPosition.left,
               top: props.canvasMouseupPosition.top,
             }}
-          >
-            <button className="button is-small" onClick={onSaveDrawingClick}>
-              <i className="fas fa-check"></i>
-            </button>
-            <button className="button is-small" onClick={onCancelDrawingClick}>
-              <i className="fas fa-times"></i>
-            </button>
-          </div>
+            onSaveDrawingClick={onSaveDrawingClick}
+            onCancelDrawingClick={onCancelDrawingClick}
+          />
         ) : null}
       </div>
+    </div>
+  );
+}
+
+function DrawingConfirmation({
+  position,
+  onSaveDrawingClick,
+  onCancelDrawingClick,
+}) {
+  useEffect(() => {
+    function listenForKeypress(e) {
+      if (e.key === "Enter") {
+        onSaveDrawingClick();
+      }
+      if (e.key === "Escape") {
+        onCancelDrawingClick();
+      }
+    }
+    document.addEventListener("keydown", listenForKeypress);
+    return () => {
+      document.removeEventListener("keydown", listenForKeypress);
+    };
+  }, [onSaveDrawingClick, onCancelDrawingClick]);
+  return (
+    <div
+      className={editorViewStyles["save-drawing-confirmation"]}
+      style={{
+        left: position.left,
+        top: position.top,
+      }}
+    >
+      <button className="button is-small" onClick={onSaveDrawingClick}>
+        <i className="fas fa-check"></i>
+        Enter
+      </button>
+      <button
+        className="button is-small"
+        onClick={() => onCancelDrawingClick()}
+      >
+        <i className="fas fa-times"></i>
+        Esc
+      </button>
     </div>
   );
 }
