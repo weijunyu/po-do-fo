@@ -1,0 +1,30 @@
+.sidebar {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 6rem;
+  padding: 0.5rem;
+  background-color: white;
+  border-top: 1px solid grey;
+  display: flex;
+}
+.sidebar .uppy-DragDrop-inner {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+.sidebar .uppy-DragDrop-arrow {
+  margin-bottom: 0;
+}
+/* .sidebar .button {
+  height: 100%;
+  margin-left: 0.3rem;
+  flex: 1 1 auto;
+  &.compressed {
+    flex: 0 1 auto;
+  }
+} */
+
+.pdf-loader {
+  flex: 1 1 auto;
+}

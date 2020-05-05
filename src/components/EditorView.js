@@ -140,14 +140,11 @@ function DrawingConfirmation({
         top: position.top,
       }}
     >
-      <button className="button is-small" onClick={onSaveDrawingClick}>
+      <button className="" onClick={onSaveDrawingClick}>
         <i className="fas fa-check"></i>
         Enter
       </button>
-      <button
-        className="button is-small"
-        onClick={() => onCancelDrawingClick()}
-      >
+      <button className="" onClick={() => onCancelDrawingClick()}>
         <i className="fas fa-times"></i>
         Esc
       </button>

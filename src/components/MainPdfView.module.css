@@ -1,22 +1,26 @@
 .documents {
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
-.document-container {
+.documentContainer {
   flex: 1 1 auto;
   display: flex;
-  align-items: stretch;
+}
+
+.document {
+  display: flex;
+  flex: 1 1 auto;
   justify-content: center;
 }
 
-.page-controls {
+.pageControls {
   display: flex;
   flex-direction: column;
   justify-content: center;
   padding: 0 0.1rem;
-  .button {
+  background: #e3e3e3;
+  /* .button {
     display: flex;
     justify-content: flex-start;
     &:not(:last-child) {
@@ -26,18 +30,13 @@
       width: 14px;
       margin-right: 1rem;
     }
-  }
+  } */
 }
-
-.page-controls .btn:not(:last-child) {
+.pageControls .btn:not(:last-child) {
   margin-bottom: 0.1rem;
 }
 
-.document-container:not(:last-child) {
-  margin-bottom: 0.25rem;
-}
-
-.load-doc-header {
+.loadDocHeader {
   position: absolute;
   top: 50%;
   left: 50%;

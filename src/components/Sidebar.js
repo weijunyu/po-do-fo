@@ -9,7 +9,7 @@ import { exportPdf, exportPdfInImages } from "../lib";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/drag-drop/dist/style.css";
-import "./Sidebar.scss";
+import "./Sidebar.css";
 
 function Sidebar(props) {
   const match = useRouteMatch("/edit");
@@ -17,7 +17,7 @@ function Sidebar(props) {
   return (
     <div className="sidebar">
       {match ? (
-        <Link to="/" className="button is-primary">
+        <Link to="/" className="">
           Back
         </Link>
       ) : (
@@ -46,16 +46,10 @@ function PdfLoader(props) {
       <div className="pdf-loader"></div>
       {props.pages.length > 0 ? (
         <>
-          <button
-            className="button is-primary compressed"
-            onClick={() => exportPdf(props.pages)}
-          >
+          <button className="compressed" onClick={() => exportPdf(props.pages)}>
             Export PDF
           </button>
-          <button
-            className="button is-primary compressed"
-            onClick={exportPdfInImages}
-          >
+          <button className="compressed" onClick={exportPdfInImages}>
             Export PDF (Image Mode)
           </button>
         </>

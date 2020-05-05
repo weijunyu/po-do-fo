@@ -4,41 +4,34 @@ import { Link } from "react-router-dom";
 import DocumentFrame from "./DocumentFrame";
 import { movePageUp, movePageDown, removePage } from "../redux/actions";
 
-import "./MainPdfView.scss";
+import MainPdfViewStyles from "./MainPdfView.module.css";
 
 function MainPdfView(props) {
   return (
-    <div className="documents">
+    <div className={MainPdfViewStyles.documents}>
       {props.pages.length > 0 ? (
         props.pages.map((page, index) => {
           return (
-            <div key={page.id} className="document-container">
-              <DocumentFrame
-                pageBytes={page.bytes}
-                className={`page-${index}`}
-              ></DocumentFrame>
-              <div className="page-controls">
-                <button
-                  className="button"
-                  onClick={() => props.movePageUp(index)}
-                >
+            <div key={page.id} className={MainPdfViewStyles.documentContainer}>
+              <div class={MainPdfViewStyles.document}>
+                <DocumentFrame
+                  pageBytes={page.bytes}
+                  className={`page-${index}`}
+                ></DocumentFrame>
+              </div>
+              <div className={MainPdfViewStyles.pageControls}>
+                <button className="" onClick={() => props.movePageUp(index)}>
                   <i className="fas fa-chevron-up"></i>
                   Move up
                 </button>
-                <button
-                  className="button"
-                  onClick={() => props.movePageDown(index)}
-                >
+                <button className="" onClick={() => props.movePageDown(index)}>
                   <i className="fas fa-chevron-down"></i>
                   Move down
                 </button>
-                <Link to={`/edit/${index}`} className="button">
+                <Link to={`/edit/${index}`} className="">
                   <i className="fas fa-edit"></i>Edit page
                 </Link>
-                <button
-                  className="button is-dark"
-                  onClick={() => props.removePage(index)}
-                >
+                <button className="" onClick={() => props.removePage(index)}>
                   <i className="fas fa-trash"></i>
                   Remove page
                 </button>
@@ -47,7 +40,7 @@ function MainPdfView(props) {
           );
         })
       ) : (
-        <h1 className="load-doc-header">Load a document</h1>
+        <h1 className={MainPdfViewStyles.loadDocHeader}>Load a document</h1>
       )}
     </div>
   );
