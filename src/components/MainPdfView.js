@@ -13,7 +13,7 @@ function MainPdfView(props) {
         props.pages.map((page, index) => {
           return (
             <div key={page.id} className={MainPdfViewStyles.documentContainer}>
-              <div class={MainPdfViewStyles.document}>
+              <div className={MainPdfViewStyles.document}>
                 <DocumentFrame
                   pageBytes={page.bytes}
                   className={`page-${index}`}
