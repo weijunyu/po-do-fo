@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { connect } from "react-redux";
 import { PDFDocument, rgb } from "pdf-lib";
+import styled from "styled-components";
 
 import DocumentFrame from "./DocumentFrame";
 import DrawableCanvas from "./DrawableCanvas";
@@ -13,8 +14,6 @@ import {
   stopDrawing,
   setShowSaveConfirmation,
 } from "../redux/actions";
-
-import editorViewStyles from "./EditorView.module.css";
 
 const mapDispatchToProps = {
   setPage,
@@ -76,7 +75,7 @@ function EditorView(props) {
   }
 
   return (
-    <div className={editorViewStyles["editor-view"] + " container"}>
+    <div style={{ position: "relative" }}>
       <EditorViewControls
         onCancelDrawing={() => onCancelDrawingClick({ stopDrawing: true })}
       />
@@ -111,6 +110,23 @@ function EditorView(props) {
   );
 }
 
+const DrawingConfirmationContainer = styled.div`
+  position: absolute;
+  z-index: 1;
+  transform: translateY(-100%);
+  display: flex;
+  flex-direction: column;
+  left: ${(props) => props.position.left}px;
+  top: ${(props) => props.position.top}px;
+`;
+
+const DrawingConfirmationButton = styled.button`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 0.2rem;
+`;
+
 function DrawingConfirmation({
   position,
   onSaveDrawingClick,
@@ -131,21 +147,18 @@ function DrawingConfirmation({
     };
   }, [onSaveDrawingClick, onCancelDrawingClick]);
   return (
-    <div
-      className={editorViewStyles["save-drawing-confirmation"]}
-      style={{
-        left: position.left,
-        top: position.top,
-      }}
-    >
-      <button className="" onClick={onSaveDrawingClick}>
+    <DrawingConfirmationContainer position={position}>
+      <DrawingConfirmationButton className="" onClick={onSaveDrawingClick}>
         <i className="fas fa-check"></i>
         Enter
-      </button>
-      <button className="" onClick={() => onCancelDrawingClick()}>
+      </DrawingConfirmationButton>
+      <DrawingConfirmationButton
+        className=""
+        onClick={() => onCancelDrawingClick()}
+      >
         <i className="fas fa-times"></i>
         Esc
-      </button>
-    </div>
+      </DrawingConfirmationButton>
+    </DrawingConfirmationContainer>
   );
 }
