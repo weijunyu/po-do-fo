@@ -40,7 +40,7 @@ function EditorView(props) {
 
   function onSaveDrawingClick() {
     props.setShowSaveConfirmation(false);
-    saveDrawnRectToPdf();
+    saveDrawnRectToPdfPage();
   }
 
   function onCancelDrawingClick(options = {}) {
@@ -59,8 +59,7 @@ function EditorView(props) {
     });
   }
 
-  async function saveDrawnRectToPdf() {
-    props.setShowSaveConfirmation(false);
+  async function saveDrawnRectToPdfPage() {
     let pagePdfDoc = await PDFDocument.load(props.page.bytes);
     let pages = pagePdfDoc.getPages();
     let pdfPage = pages[0];
