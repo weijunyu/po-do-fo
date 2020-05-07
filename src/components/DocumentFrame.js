@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 import { Document, Page } from "react-pdf";
-import "./DocumentFrame.css";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+
+const Bordered = styled.div`
+  border: 1px solid grey;
+`;
 
 function DocumentFrame(props) {
   const [blobUrl, setBlobUrl] = useState(null);
@@ -13,7 +17,7 @@ function DocumentFrame(props) {
     setBlobUrl(URL.createObjectURL(blob));
   }, [props.pageBytes]);
   return (
-    <div className="document-frame" style={props.style}>
+    <Bordered style={props.style}>
       <Document file={blobUrl} className={`${props.className}-doc`}>
         <Page
           pageNumber={1}
@@ -21,7 +25,7 @@ function DocumentFrame(props) {
           onRenderSuccess={props.onRenderSuccess}
         />
       </Document>
-    </div>
+    </Bordered>
   );
 }
 

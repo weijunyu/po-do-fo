@@ -93,7 +93,6 @@ function EditorView(props) {
       >
         <DocumentFrame
           pageBytes={props.page.bytes}
-          className={`page-${props.pageIndex}`}
           onRenderSuccess={getLoadedPageSize}
           style={{ position: "absolute", top: 0, left: 0 }}
         />
