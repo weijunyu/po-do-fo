@@ -1,39 +1,42 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { ChromePicker } from "react-color";
-import { colorDataToCssAttribute } from "../lib";
+import styled from "styled-components";
 
 import { startDrawing, setFillColour } from "../redux/actions";
 
-import EditorViewControlsStyles from "./EditorViewControls.module.css";
+import { colorDataToCssAttribute } from "../lib";
+
+const EditorControlsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.5rem 1rem;
+`;
 
 export default connect((state) => ({ drawing: state.editor.drawing }), {
   startDrawing,
-})(function EditorViewControls(props) {
+})(function EditorViewControls({ drawing, startDrawing, onCancelDrawing }) {
   function onDrawRectangleClick() {
-    if (!props.drawing) {
-      props.startDrawing({
+    if (!drawing) {
+      startDrawing({
         mode: "rectangle",
       });
     } else {
-      props.onCancelDrawing();
+      onCancelDrawing();
     }
   }
   return (
-    <div className={EditorViewControlsStyles["editor-controls"]}>
+    <EditorControlsContainer>
       <ColorPickerControls />
-
       <button
         className={`button ${
-          props.drawing && props.drawing.mode === "rectangle"
-            ? "is-light"
-            : "is-white"
+          drawing && drawing.mode === "rectangle" ? "is-light" : "is-white"
         }`}
         onClick={onDrawRectangleClick}
       >
         Rectangle (fill)
       </button>
-    </div>
+    </EditorControlsContainer>
   );
 });
 

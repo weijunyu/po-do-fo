@@ -21,18 +21,18 @@ const StyledPageControls = styled.div`
 function PageControls({ pageIndex, movePageUp, movePageDown, removePage }) {
   return (
     <StyledPageControls>
-      <button className="" onClick={() => movePageUp(pageIndex)}>
+      <button onClick={() => movePageUp(pageIndex)}>
         <i className="fas fa-chevron-up"></i>
         Move up
       </button>
-      <button className="" onClick={() => movePageDown(pageIndex)}>
+      <button onClick={() => movePageDown(pageIndex)}>
         <i className="fas fa-chevron-down"></i>
         Move down
       </button>
-      <Link to={`/edit/${pageIndex}`} className="">
+      <Link to={`/edit/${pageIndex}`}>
         <i className="fas fa-edit"></i>Edit page
       </Link>
-      <button className="" onClick={() => removePage(pageIndex)}>
+      <button onClick={() => removePage(pageIndex)}>
         <i className="fas fa-trash"></i>
         Remove page
       </button>

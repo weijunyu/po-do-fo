@@ -3,32 +3,69 @@ import { connect } from "react-redux";
 import { useRouteMatch, Link } from "react-router-dom";
 import Uppy from "@uppy/core";
 import DragDrop from "@uppy/drag-drop";
+import styled from "styled-components";
 
 import { loadPagesFromFile } from "../redux/actions";
 import { exportPdf, exportPdfInImages } from "../lib";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/drag-drop/dist/style.css";
-import "./Sidebar.css";
+
+const StyledSidebar = styled.div`
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 6rem;
+  padding: 0.5rem;
+  background-color: white;
+  border-top: 1px solid grey;
+  display: flex;
+  & .uppy-DragDrop-inner {
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+  & .uppy-DragDrop-arrow {
+    margin-bottom: 0;
+  }
+`;
+
+const StyledPdfLoader = styled.div`
+  display: flex;
+  width: 100%;
+  & .pdf-loader {
+    flex: 1 1 auto;
+  }
+`;
+
+function mapStateToProps(state) {
+  return { pages: state.pages };
+}
+
+const mapDispatchToProps = {
+  loadPagesFromFile,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
 
 function Sidebar(props) {
   const match = useRouteMatch("/edit");
 
   return (
-    <div className="sidebar">
+    <StyledSidebar>
       {match ? (
-        <Link to="/" className="">
-          Back
-        </Link>
+        <Link to="/">Back</Link>
       ) : (
-        PdfLoader(props)
+        <PdfLoader
+          pages={props.pages}
+          loadPagesFromFile={props.loadPagesFromFile}
+        />
       )}
-    </div>
+    </StyledSidebar>
   );
 }
 
-function PdfLoader(props) {
-  const { loadPagesFromFile } = props;
+function PdfLoader({ pages, loadPagesFromFile }) {
   useEffect(() => {
     Uppy({
       onBeforeFileAdded: (currentFile) => {
@@ -42,28 +79,14 @@ function PdfLoader(props) {
   }, [loadPagesFromFile]);
 
   return (
-    <>
-      <div className="pdf-loader"></div>
-      {props.pages.length > 0 ? (
+    <StyledPdfLoader>
+      <div className="pdf-loader" />
+      {pages.length > 0 ? (
         <>
-          <button className="compressed" onClick={() => exportPdf(props.pages)}>
-            Export PDF
-          </button>
-          <button className="compressed" onClick={exportPdfInImages}>
-            Export PDF (Image Mode)
-          </button>
+          <button onClick={() => exportPdf(pages)}>Export PDF</button>
+          <button onClick={exportPdfInImages}>Export PDF (Image Mode)</button>
         </>
       ) : null}
-    </>
+    </StyledPdfLoader>
   );
 }
-
-function mapStateToProps(state) {
-  return { pages: state.pages };
-}
-
-const mapDispatchToProps = {
-  loadPagesFromFile,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
