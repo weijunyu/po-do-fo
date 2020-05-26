@@ -5,6 +5,7 @@ import Uppy from "@uppy/core";
 import DragDrop from "@uppy/drag-drop";
 import styled from "styled-components";
 
+import { PrimaryButton } from "./common/Button";
 import { loadPagesFromFile } from "../redux/actions";
 import { exportPdf, exportPdfInImages } from "../lib";
 
@@ -33,8 +34,11 @@ const StyledSidebar = styled.div`
 const StyledPdfLoader = styled.div`
   display: flex;
   width: 100%;
-  & .pdf-loader {
+  .pdf-loader {
     flex: 1 1 auto;
+  }
+  & > *:not(:last-child) {
+    margin-right: 6px;
   }
 `;
 
@@ -83,8 +87,12 @@ function PdfLoader({ pages, loadPagesFromFile }) {
       <div className="pdf-loader" />
       {pages.length > 0 ? (
         <>
-          <button onClick={() => exportPdf(pages)}>Export PDF</button>
-          <button onClick={exportPdfInImages}>Export PDF (Image Mode)</button>
+          <PrimaryButton onClick={() => exportPdf(pages)}>
+            Export PDF
+          </PrimaryButton>
+          <PrimaryButton onClick={exportPdfInImages}>
+            Export PDF (Image Mode)
+          </PrimaryButton>
         </>
       ) : null}
     </StyledPdfLoader>
