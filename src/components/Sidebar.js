@@ -58,7 +58,9 @@ function Sidebar(props) {
   return (
     <StyledSidebar>
       {match ? (
-        <Link to="/">Back</Link>
+        <PrimaryButton as={Link} to="/">
+          Back
+        </PrimaryButton>
       ) : (
         <PdfLoader
           pages={props.pages}

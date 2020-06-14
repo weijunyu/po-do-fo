@@ -6,11 +6,15 @@ import styled from "styled-components";
 import { startDrawing, setFillColour } from "../redux/actions";
 
 import { colorDataToCssAttribute } from "../lib";
+import { LightButton } from "./common/Button";
 
 const EditorControlsContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 0.5rem 1rem;
+  button:not(:last-child) {
+    margin-right: 1rem;
+  }
 `;
 
 export default connect((state) => ({ drawing: state.editor.drawing }), {
@@ -28,14 +32,7 @@ export default connect((state) => ({ drawing: state.editor.drawing }), {
   return (
     <EditorControlsContainer>
       <ColorPickerControls />
-      <button
-        className={`button ${
-          drawing && drawing.mode === "rectangle" ? "is-light" : "is-white"
-        }`}
-        onClick={onDrawRectangleClick}
-      >
-        Rectangle (fill)
-      </button>
+      <LightButton onClick={onDrawRectangleClick}>Rectangle (fill)</LightButton>
     </EditorControlsContainer>
   );
 });
@@ -51,9 +48,8 @@ const ColorPickerControls = connect(
   }
   return (
     <>
-      <button
+      <LightButton
         onClick={() => setShowColourPicker(!showColourPicker)}
-        className={`button ${showColourPicker ? "is-light" : "is-white"}`}
         ref={showPickerButtonRef}
       >
         Choose Fill Colour
@@ -65,7 +61,7 @@ const ColorPickerControls = connect(
             textShadow: "1px 1px 2px black",
           }}
         ></i>
-      </button>
+      </LightButton>
       {showColourPicker ? (
         <ColorPickerContainer
           fillColour={props.fillColour}
