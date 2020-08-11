@@ -86,7 +86,7 @@ function EditorView(props) {
           position: "relative",
           width: dimensions.width,
           height: dimensions.height,
-          margin: "0 auto",
+          margin: "1rem auto",
         }}
       >
         <DocumentFrame

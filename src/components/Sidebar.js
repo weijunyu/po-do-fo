@@ -21,14 +21,6 @@ const StyledSidebar = styled.div`
   background-color: white;
   border-top: 1px solid grey;
   display: flex;
-  & .uppy-DragDrop-inner {
-    display: flex;
-    align-items: center;
-    padding: 0;
-  }
-  & .uppy-DragDrop-arrow {
-    margin-bottom: 0;
-  }
 `;
 
 const StyledPdfLoader = styled.div`
@@ -40,6 +32,19 @@ const StyledPdfLoader = styled.div`
   & > *:not(:last-child) {
     margin-right: 6px;
   }
+  & .uppy-DragDrop-inner {
+    display: flex;
+    align-items: center;
+    padding: 0;
+  }
+  & .uppy-DragDrop-arrow {
+    margin-bottom: 0;
+  }
+`;
+
+const BackButton = styled(PrimaryButton)`
+  flex: 1 1 auto;
+  justify-content: center;
 `;
 
 function mapStateToProps(state) {
@@ -58,9 +63,9 @@ function Sidebar(props) {
   return (
     <StyledSidebar>
       {match ? (
-        <PrimaryButton as={Link} to="/">
+        <BackButton to="/" as={Link}>
           Back
-        </PrimaryButton>
+        </BackButton>
       ) : (
         <PdfLoader
           pages={props.pages}

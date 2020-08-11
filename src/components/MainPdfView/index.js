@@ -23,6 +23,7 @@ const StyledDocument = styled.div`
   flex: 1 1 auto;
   display: flex;
   justify-content: center;
+  padding: 1rem 0;
 `;
 
 const LoadDocumentHeading = styled.h1`
