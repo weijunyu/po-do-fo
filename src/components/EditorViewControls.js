@@ -6,7 +6,8 @@ import styled from "styled-components";
 import { startDrawing, setFillColour } from "../redux/actions";
 
 import { colorDataToCssAttribute } from "../lib";
-import { LightButton } from "./common/Button";
+import { LightButton, AccentButton } from "./common/Button";
+import Icon from "./common/Icon";
 
 const EditorControlsContainer = styled.div`
   display: flex;
@@ -32,7 +33,18 @@ export default connect((state) => ({ drawing: state.editor.drawing }), {
   return (
     <EditorControlsContainer>
       <ColorPickerControls />
-      <LightButton onClick={onDrawRectangleClick}>Rectangle (fill)</LightButton>
+      <LightButton
+        onClick={onDrawRectangleClick}
+        active={drawing && drawing.mode === "rectangle"}
+      >
+        Rectangle (fill)
+      </LightButton>
+      {drawing && drawing.mode === "rectangle" ? (
+        <>
+          <Icon name="fa-angle-right" style={{ marginRight: "1rem" }}></Icon>
+          <AccentButton onClick={onCancelDrawing}>Done</AccentButton>
+        </>
+      ) : null}
     </EditorControlsContainer>
   );
 });

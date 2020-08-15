@@ -30,24 +30,26 @@ export const PrimaryButton = styled.button`
 
 export const LightButton = styled(PrimaryButton)`
   color: ${Colours.Dark};
-  background-color: ${Colours.Light};
+  background-color: ${(props) =>
+    props.active ? Colours.LightDark : Colours.Light};
   :hover {
     background-color: ${Colours.LightDark};
   }
   :active,
   :focus {
-    background-color: ${Colours.LightLight};
+    background-color: ${Colours.LightDark};
   }
 `;
 
 export const AccentButton = styled(PrimaryButton)`
   color: ${Colours.Dark};
-  background-color: ${Colours.Accent};
+  background-color: ${(props) =>
+    props.active ? Colours.AccentDark : Colours.Accent};
   :hover {
     background-color: ${Colours.AccentDark};
   }
   :active,
   :focus {
-    background-color: ${Colours.AccentLight};
+    background-color: ${Colours.AccentDark};
   }
 `;

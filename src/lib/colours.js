@@ -6,10 +6,10 @@ export const Secondary = "#5FBFF9";
 
 export const Dark = "#171D1C";
 
-export const Light = "#EFE9F4";
-export const LightDark = "#d7d2dd";
-export const LightLight = "#f1ebf5";
+export const Light = "#efefef";
+export const LightDark = "#cfcfcf";
+export const LightLight = "#f4f4f4";
 
-export const Accent = "#c1cfda";
-export const AccentLight = "#c6d4de";
-export const AccentDark = "#aebbc6";
+export const Accent = "#bed3ec";
+export const AccentLight = "#cce4ff";
+export const AccentDark = "#adc1da";
