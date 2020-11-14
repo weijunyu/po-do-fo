@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { connect } from "react-redux";
 import { useRouteMatch, Link } from "react-router-dom";
 import Uppy from "@uppy/core";
@@ -6,8 +6,9 @@ import DragDrop from "@uppy/drag-drop";
 import styled from "styled-components";
 
 import { PrimaryButton } from "./common/Button";
-import { loadPagesFromFile } from "../redux/actions";
+import { loadPagesFromFile, stopDrawing, setShowSaveConfirmation } from "../redux/actions";
 import { exportPdf, exportPdfInImages } from "../lib";
+import DrawableCanvasContext from "../context/DrawableCanvasContext";
 
 import "@uppy/core/dist/style.css";
 import "@uppy/drag-drop/dist/style.css";
@@ -53,6 +54,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   loadPagesFromFile,
+  stopDrawing,
+  setShowSaveConfirmation,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
@@ -60,17 +63,22 @@ export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
 function Sidebar(props) {
   const match = useRouteMatch("/edit");
 
+  const { clearCanvas } = useContext(DrawableCanvasContext);
+
+  function cancelDrawing() {
+    props.stopDrawing();
+    props.setShowSaveConfirmation(false);
+    clearCanvas();
+  }
+
   return (
     <StyledSidebar>
       {match ? (
-        <BackButton to="/" as={Link}>
+        <BackButton to="/" as={Link} onClick={cancelDrawing}>
           Back
         </BackButton>
       ) : (
-        <PdfLoader
-          pages={props.pages}
-          loadPagesFromFile={props.loadPagesFromFile}
-        />
+        <PdfLoader pages={props.pages} loadPagesFromFile={props.loadPagesFromFile} />
       )}
     </StyledSidebar>
   );
@@ -94,12 +102,8 @@ function PdfLoader({ pages, loadPagesFromFile }) {
       <div className="pdf-loader" />
       {pages.length > 0 ? (
         <>
-          <PrimaryButton onClick={() => exportPdf(pages)}>
-            Export PDF
-          </PrimaryButton>
-          <PrimaryButton onClick={exportPdfInImages}>
-            Export PDF (Image Mode)
-          </PrimaryButton>
+          <PrimaryButton onClick={() => exportPdf(pages)}>Export PDF</PrimaryButton>
+          <PrimaryButton onClick={exportPdfInImages}>Export PDF (Image Mode)</PrimaryButton>
         </>
       ) : null}
     </StyledPdfLoader>
