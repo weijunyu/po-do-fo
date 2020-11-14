@@ -23,9 +23,23 @@ const StyledPageControls = styled.div`
   }
 `;
 
+const StyledPageNumberHeader = styled.div`
+  text-align: center;
+  padding-bottom: 1.5rem;
+`;
+
+function PageNumberHeader({ page }) {
+  return (
+    <StyledPageNumberHeader>
+      <strong>Page {page}</strong>
+    </StyledPageNumberHeader>
+  );
+}
+
 function PageControls({ pageIndex, movePageUp, movePageDown, removePage }) {
   return (
     <StyledPageControls>
+      <PageNumberHeader page={pageIndex + 1} />
       <PrimaryButton onClick={() => movePageUp(pageIndex)}>
         <i className="fas fa-chevron-up"></i>
         Move up
