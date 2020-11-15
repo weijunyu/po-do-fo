@@ -25,7 +25,7 @@ const StyledPageControls = styled.div`
 
 const StyledPageNumberHeader = styled.div`
   text-align: center;
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
 `;
 
 function PageNumberHeader({ page }) {

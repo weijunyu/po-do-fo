@@ -3,6 +3,7 @@ import uuidv4 from "uuid/v4";
 import {
   ADD_PAGES,
   SET_PAGE,
+  CLEAR_PAGES,
   MOVE_PAGE_UP,
   MOVE_PAGE_DOWN,
   REMOVE_PAGE,
@@ -24,6 +25,7 @@ export const setPage = (pageIndex, pageBytes) => ({
     pageBytes,
   },
 });
+export const clearPages = () => ({ type: CLEAR_PAGES })
 export const loadPagesFromFile = (file) => {
   return (dispatch) => {
     let fileRef = file.data;

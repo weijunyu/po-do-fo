@@ -5,8 +5,13 @@ import Uppy from "@uppy/core";
 import DragDrop from "@uppy/drag-drop";
 import styled from "styled-components";
 
-import { PrimaryButton } from "./common/Button";
-import { loadPagesFromFile, stopDrawing, setShowSaveConfirmation } from "../redux/actions";
+import { PrimaryButton, LightButton } from "./common/Button";
+import {
+  loadPagesFromFile,
+  stopDrawing,
+  setShowSaveConfirmation,
+  clearPages,
+} from "../redux/actions";
 import { exportPdf, exportPdfInImages } from "../lib";
 import DrawableCanvasContext from "../context/DrawableCanvasContext";
 
@@ -56,6 +61,7 @@ const mapDispatchToProps = {
   loadPagesFromFile,
   stopDrawing,
   setShowSaveConfirmation,
+  clearPages,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);
@@ -78,13 +84,17 @@ function Sidebar(props) {
           Back
         </BackButton>
       ) : (
-        <PdfLoader pages={props.pages} loadPagesFromFile={props.loadPagesFromFile} />
+        <PdfLoader
+          pages={props.pages}
+          loadPagesFromFile={props.loadPagesFromFile}
+          clearPages={props.clearPages}
+        />
       )}
     </StyledSidebar>
   );
 }
 
-function PdfLoader({ pages, loadPagesFromFile }) {
+function PdfLoader({ pages, loadPagesFromFile, clearPages }) {
   useEffect(() => {
     Uppy({
       onBeforeFileAdded: (currentFile) => {
@@ -104,6 +114,7 @@ function PdfLoader({ pages, loadPagesFromFile }) {
         <>
           <PrimaryButton onClick={() => exportPdf(pages)}>Export PDF</PrimaryButton>
           <PrimaryButton onClick={exportPdfInImages}>Export PDF (Image Mode)</PrimaryButton>
+          <LightButton onClick={clearPages}>Clear all PDFs</LightButton>
         </>
       ) : null}
     </StyledPdfLoader>

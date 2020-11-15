@@ -7,6 +7,7 @@ import {
   MOVE_PAGE_DOWN,
   REMOVE_PAGE,
   SET_PAGE,
+  CLEAR_PAGES,
 } from "../actionTypes";
 const initialState = [{ id: uuidv4(), bytes: seedDoc }];
 
@@ -25,6 +26,9 @@ export default function (state = initialState, action) {
     case ADD_PAGES: {
       const pages = action.payload;
       return [...state, ...pages];
+    }
+    case CLEAR_PAGES: {
+      return [];
     }
     case SET_PAGE: {
       let { pageIndex, pageBytes } = action.payload;

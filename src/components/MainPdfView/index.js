@@ -2,6 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import styled from "styled-components";
 
+import { Secondary } from "../../lib/colours";
+
 import DocumentFrame from "../DocumentFrame";
 import PageControls from "./PageControls";
 
@@ -17,6 +19,9 @@ const DocumentsContainer = styled.div`
 const DocumentContainer = styled.div`
   flex: 1 1 auto;
   display: flex;
+  &:not(:last-child) {
+    border-bottom: 1rem solid ${Secondary}
+  }
 `;
 
 const StyledDocument = styled.div`

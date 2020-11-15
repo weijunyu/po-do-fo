@@ -1,15 +1,15 @@
-export const Primary = "#136F63";
-export const PrimaryLight = "#247d73";
-export const PrimaryDark = "#116659";
+export const Primary = "#393b44";
+export const PrimaryLight = "#5c5f6e";
+export const PrimaryDark = "#16171a";
 
-export const Secondary = "#5FBFF9";
+export const Secondary = "#8d93ab";
 
-export const Dark = "#171D1C";
+export const Dark = "#16171a";
 
-export const Light = "#efefef";
-export const LightDark = "#cfcfcf";
-export const LightLight = "#f4f4f4";
+export const Light = "#f1f3f8";
+export const LightDark = "#cfd6e7";
+export const LightLight = "#f1f3f8";
 
-export const Accent = "#bed3ec";
-export const AccentLight = "#cce4ff";
-export const AccentDark = "#adc1da";
+export const Accent = "#d6f0e9";
+export const AccentLight = "#e9f7f3";
+export const AccentDark = "#b1e2d5";
