@@ -31,6 +31,7 @@
     "@uppy/core": "^1.10.2",
     "@uppy/drag-drop": "^1.4.10",
     "file-saver": "^2.0.2",
+    "firebase": "^8.1.1",
     "pdf-lib": "^1.4.1",
     "prop-types": "^15.7.2",
     "react": "^16.13.1",
