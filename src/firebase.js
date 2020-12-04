@@ -11,6 +11,6 @@ const firebaseConfig = JSON.parse(
 );
 
 if (firebaseConfig) {
-  console.log(`Initializing firebase analytics.`);
   firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
 }
