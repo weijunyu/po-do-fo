@@ -17,7 +17,7 @@ function swapArrayIndices(arr, first, second) {
   arr[second] = temp;
 }
 
-export default function (state = initialState, action) {
+export function pagesReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_PAGE: {
       const page = action.payload;

@@ -1,5 +1,6 @@
 import { PDFDocument } from "pdf-lib";
 import uuidv4 from "uuid/v4";
+import { loadPDF } from "../lib/pdf";
 import {
   ADD_PAGES,
   SET_PAGE,
@@ -25,13 +26,17 @@ export const setPage = (pageIndex, pageBytes) => ({
     pageBytes,
   },
 });
-export const clearPages = () => ({ type: CLEAR_PAGES })
+export const clearPages = () => ({ type: CLEAR_PAGES });
 export const loadPagesFromFile = (file) => {
   return (dispatch) => {
     let fileRef = file.data;
     let reader = new FileReader();
     reader.onload = async () => {
-      const pdfDoc = await PDFDocument.load(reader.result);
+      const { pdfDoc, error } = await loadPDF(reader.result);
+
+      if (error) {
+        console.warn("Warning!", error.message);
+      }
 
       let newDocs = [];
       for (let i = 0; i < pdfDoc.getPageCount(); i++) {

@@ -15,7 +15,7 @@ const initialState = {
   fillColour: { r: 0, g: 0, b: 0, a: 1 },
 };
 
-export default function (state = initialState, action) {
+export function editorReducer(state = initialState, action) {
   switch (action.type) {
     case START_DRAWING: {
       return {

@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import pages from "./pages";
-import editor from "./editor";
+import { pagesReducer } from "./pages";
+import { editorReducer } from "./editor";
 
-export default combineReducers({ pages, editor });
+export default combineReducers({ pages: pagesReducer, editor: editorReducer });
