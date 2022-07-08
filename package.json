@@ -6,7 +6,8 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "firebase": "firebase"
   },
   "browserslist": {
     "production": [
@@ -45,5 +46,8 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.1.0",
     "uuid": "^3.4.0"
+  },
+  "devDependencies": {
+    "firebase-tools": "^11.2.1"
   }
 }
