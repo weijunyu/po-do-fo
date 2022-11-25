@@ -17,7 +17,7 @@ jobs:
           node-version: 16.x
       - run: npm ci
       - run: npm run build
+        env:
+          CI: false # Tell react-scripts build to not treat warnings as errors
       - run: npm run firebase -- deploy --token "${{ secrets.FIREBASE_TOKEN }}" --project "${{ secrets.FIREBASE_PROJECT }}"
         if: ${{ github.ref == 'refs/heads/master' }}
-        env:
-          CI: "false" # Tell react-scripts build to not treat warnings as errors
